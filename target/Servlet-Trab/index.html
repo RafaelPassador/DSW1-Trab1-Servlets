@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="trab.css">
+        <!-- <script src="trab.js"></script> -->
+        <title>Perfil Estudante</title>
+        <meta name ="viewport" content="width=device-widthm initial-scale=1.0">
+        <meta charset="UTF-8">
+    </head> 
+    <body>
+
+        <div class="grid-container">
+            <div class = "grid-title">
+                <h1>Estudante 120201</h1>
+            </div>
+            <div class="grid-image">
+                <!-- <img src="D:\7thSemester\WEB1\Codigo\T1\jorge.jpg"" alt="JORGE" style="width: 100%;"> -->
+                <img src="jorge.jpg"" alt="JORGE" style="width: 100%;">
+            </div>
+
+            <div class="grid-list">
+                <!-- <ul>
+                    <li>Nome = Jefferson da Silva</li>
+                    <li>Endereço = Rua dos bobos nº0</li>
+                    <li>Gosto = *e$#%@!</li>
+                    <li>Hobby = Esportes</li>
+                    <li>Filme = A volta dos que não foram</li>
+                    <li>Música = Tchaikovsky: Valse sentimentale, Op.51, No.6</li>
+                    <li>Comida Favorita = Sopa de Cogumelo</li>
+                </ul> -->
+                <dl>
+                    <dt>Nome</dt>
+                    <dd>Jefferson da Silva</dd>
+                    <dt>Endereço</dt>
+                    <dd>Rua dos bobos nº0</dd>
+                    <dt>Gosto</dt>
+                    <dd>Salgado</dd>
+                    <dt>Hobby</dt>
+                    <dd>Esportes</dd>
+                    <dt>Filme</dt>
+                    <dd>As tranças do rei careca</dd>
+                    <dt>Música</dt>
+                    <dd>Tchaikovsky: Valse sentimentale, Op.51, No.6</dd>
+                    <dt>Comida Favorita</dt>
+                    <dd>Sopa de Cogumelo</dd>
+                </dl>
+            </div>
+            <div class="grid-table">
+                <table class="table">
+                     <!-- definimos as colunas de uma tabela com th -->
+                    <thead >
+                        <th class = "table-cab">Dia</th>
+                        <th class = "table-cab">Nome</th>
+                        <th class = "table-cab">Local</th>
+                        <th class = "table-cab">Professor</th>
+                        <th class = "table-cab">Pré-requisito</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="table-rows">MC</td>
+                            <td class="table-rows">Segunda</td>
+                            <td class="table-rows">PPGCC2</td>
+                            <td class="table-rows">Heloisa</td>
+                            <td class="table-rows">Nenhum</td>
+                        </tr>
+                        <tr>
+                            <td class="table-rows">PDI</td>
+                            <td class="table-rows">Sexta</td>
+                            <td class="table-rows">AT-9</td>
+                            <td class="table-rows">Cesar</td>
+                            <td class="table-rows">GA, CAP</td>
+                        </tr>
+                        <tr>
+                            <td class="table-rows">CG</td>
+                            <td class="table-rows">Terça e Quinta</td>
+                            <td class="table-rows">AT-9</td>
+                            <td class="table-rows">Murilo</td>
+                            <td class="table-rows">GA, AED</td>
+                        </tr>
+                        <tr>
+                            <td class="table-rows">WEB1</td>
+                            <td class="table-rows">Sexta</td>
+                            <td class="table-rows">DC</td>
+                            <td class="table-rows">Alan</td>
+                            <td class="table-rows">Banco de Dados</td>
+                        </tr>
+                        <tr>
+                            <td class="table-rows">TC</td>
+                            <td class="table-rows">Segunda</td>
+                            <td class="table-rows">AT-5</td>
+                            <td class="table-rows">Zorzo</td>
+                            <td class="table-rows">Matemática Discreta</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="forms" id="forms">
+                <form action="jorge-page" method="POST">
+                    <label for="GET-tel">Telefone:</label>
+                    <input id="GET-tel" type="text" name="tel"> <br>
+                    <label for="GET-email">E-mail:</label>
+                    <input id="GET-email" type="email" name="email">
+                    <!-- <input id = "bt" class ="bt" type="submit" value="Save" onclick="get_form()"> -->
+                    <!-- <input id = "bt" class ="bt" value="Save">  -->
+                    <button type="submit" id="bt" class="bt">Save</button>
+                </form>
+            </div>
+        </div>
+
+    </body>
+</html>
