@@ -19,8 +19,8 @@
                 </ul>
             </div>
         </c:if>
-        <form method="post" action="index.jsp">
-            <table>´
+        <form method="post" action="Login">
+            <table>
                 <tr>
                     <th>Tipo de Usuário</th>
                     <td>

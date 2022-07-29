@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Login", urlPatterns = {"/login.jsp"})
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class LoginController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -32,10 +32,12 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
         Erro erros = new Erro();
+        // System.out.println("Checking creation...");
         db.checkCreation();
         if (req.getParameter("bOK") != null) {
+            System.out.println("ENTROU");
 			String login = req.getParameter("login");
-			String password = req.getParameter("password");
+			String password = req.getParameter("senha");
             String type = req.getParameter("user");
 			if (login == null || login.isEmpty()) {
 				erros.add("Login não informado!");
@@ -44,9 +46,10 @@ public class LoginController extends HttpServlet {
 				erros.add("Senha não informada!");
 			}
 			if (!erros.isExisteErros()) {
-                req.getSession().setAttribute("typeLog", type);
+                //req.getSession().setAttribute("typeLog", type);
                 boolean logged = false;
                 if(type.equals("admin")){
+                    System.out.println("okay admin");
                     if(login.equals("admin") && password.equals("admin")){
                         // resp.sendRedirect("admin/");
                         logged = true;
@@ -80,7 +83,11 @@ public class LoginController extends HttpServlet {
                     erros.add("XIIII deu ruim");
                 }
                 if(logged){
-                    resp.sendRedirect("/menu");
+                    System.out.println("ta pra sair");
+                    req.getSession().setAttribute("typeLog", type);
+                    // resp.sendRedirect("menu/");
+                    RequestDispatcher rd = req.getRequestDispatcher("/menu");
+                    rd.forward(req, resp); 
                     return;
                 }
 

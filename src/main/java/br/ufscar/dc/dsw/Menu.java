@@ -21,7 +21,9 @@ public class Menu extends HttpServlet { // classe para reposicionar para botões
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String type = (String) request.getParameter("typeLog");
+        String type = (String) //request.getParameter("typeLog");
+        request.getSession().getAttribute("typeLog");
+        System.out.println("got here with " + type);
 
         if(type.equals("cliente")){
             RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente.jsp");

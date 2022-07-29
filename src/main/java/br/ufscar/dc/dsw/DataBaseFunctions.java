@@ -27,7 +27,7 @@ public class DataBaseFunctions {
         Connection con = null;
         try{
             String url = "jdbc:mysql://localhost:3306";
-            con = (Connection) DriverManager.getConnection(url, "root", "pass");
+            con = (Connection) DriverManager.getConnection(url, "root", "password");
         }
         catch(SQLException e){
             //tratar erros preguicinha aqui é de Query
@@ -101,6 +101,7 @@ public class DataBaseFunctions {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, login);
             statement.setString(2, password);
+        
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -235,6 +236,7 @@ public class DataBaseFunctions {
         ArrayList<Proposta> myOffer = new ArrayList<>();
 
         String sql = type ? "select * from Proposta where cliente_id = ?" : "select * from Proposta where loja_id = ?";
+
         try{
             Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
