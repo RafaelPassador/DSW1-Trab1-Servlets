@@ -23,20 +23,21 @@ public class Menu extends HttpServlet { // classe para reposicionar para botões
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String type = (String) //request.getParameter("typeLog");
         request.getSession().getAttribute("typeLog");
-        System.out.println("got here with " + type);
-
+        
+        //responsavel pelo direcionamento ao servlet de cada usuario
         if(type.equals("cliente")){
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente");
             dispatcher.forward(request, response);
             
         }
         else if(type.equals("loja")){
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/loja.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/loja");
             dispatcher.forward(request, response);
             
         }
         else if(type.equals("admin")){
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin.jsp");
+            // response.sendRedirect("/admin.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin");
             dispatcher.forward(request, response);
 
         }

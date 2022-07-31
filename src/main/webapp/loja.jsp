@@ -14,6 +14,9 @@
                 <input type="submit" name="regLoja" value="Cadastrar Veiculo"/> <br>
                 <input type="submit" name="regClient" value="Listar Veiculos"/> <br>
                 <input type="submit" name="regClient" value="Listar Propostas"/> <br>
+                <c:if target=$"{cadastrar}">
+                    <form action="${cadastrar}"></form>
+                </c:if>
         </form>
     </body>
 </html>

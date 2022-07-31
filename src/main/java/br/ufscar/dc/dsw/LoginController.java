@@ -32,50 +32,46 @@ public class LoginController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
         Erro erros = new Erro();
-        // System.out.println("Checking creation...");
+        // checa a criação do banco de dados caso nao exista, cria um novo
         db.checkCreation();
-        if (req.getParameter("bOK") != null) {
-            System.out.println("ENTROU");
+        if (req.getParameter("bOK") != null) {//bOk = button ok, somente quando o formulario for enviado entra aqui
 			String login = req.getParameter("login");
 			String password = req.getParameter("senha");
             String type = req.getParameter("user");
-			if (login == null || login.isEmpty()) {
+			if (login == null || login.isEmpty()) {// caso falte login
 				erros.add("Login não informado!");
 			}
-			if (password == null || password.isEmpty()) {
+			if (password == null || password.isEmpty()) {// caso falte senha
 				erros.add("Senha não informada!");
 			}
 			if (!erros.isExisteErros()) {
-                //req.getSession().setAttribute("typeLog", type);
                 boolean logged = false;
                 if(type.equals("admin")){
-                    System.out.println("okay admin");
                     if(login.equals("admin") && password.equals("admin")){
-                        // resp.sendRedirect("admin/");
                         logged = true;
                     }
                     else
-                        erros.add("Algo errado!");
+                        erros.add("Login ou senha Inválidos!");
                 }
                 else if(type.equals("cliente")){
                     Cliente client = db.getClientByLogin(login, password);
-                    if(client != null){
+                    if(client != null){//somente se bater login e senha ele pode ser redirecionado
+                        //salva o cliente na sessão
                         req.getSession().setAttribute("clientLog", client);
-                        // resp.sendRedirect("client/");
                         logged = true;
                     }
                     else
-                        erros.add("Algo errado!");
+                        erros.add("Login ou senha Inválidos!");
                 }
                 else if(type.equals("loja")){
                     Loja store = db.getStoreByLogin(login, password);
-                    if(store != null){
+                    if(store != null){//somente se bater login e senha ele pode ser redirecionado
+                        //salva o cliente na sessão
                         req.getSession().setAttribute("storeLog", store);
-                        // resp.sendRedirect("store/");
                         logged = true;
                     }
                     else
-                        erros.add("Algo errado!");
+                        erros.add("Login ou senha Inválidos!");
 
                 }
                 else{
@@ -83,8 +79,8 @@ public class LoginController extends HttpServlet {
                     erros.add("XIIII deu ruim");
                 }
                 if(logged){
-                    System.out.println("ta pra sair");
-                    req.getSession().setAttribute("typeLog", type);
+                    //mandamos o tipo do usuario para fim de redirecionamento!
+                    req.getSession().setAttribute("typeLog", type); 
                     // resp.sendRedirect("menu/");
                     RequestDispatcher rd = req.getRequestDispatcher("/menu");
                     rd.forward(req, resp); 

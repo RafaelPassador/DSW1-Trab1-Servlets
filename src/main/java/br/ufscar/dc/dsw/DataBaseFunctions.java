@@ -167,7 +167,7 @@ public class DataBaseFunctions {
     public ArrayList<Carros> getStoreCars(Long id){
         ArrayList<Carros> myStore = new ArrayList<>();
 
-        //Pode dar erro (encriptacao)
+        
         String sql = "select * from Carros where loja_id = ?";
 
         try{
@@ -204,7 +204,7 @@ public class DataBaseFunctions {
     public ArrayList<String> getCarImages(Long id){
         ArrayList<String> myImages = new ArrayList<>();
 
-        //Pode dar erro (encriptacao)
+        
         String sql = "select * from Imagens where carro_id = ?";
 
         try{
