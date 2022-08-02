@@ -28,30 +28,28 @@ public class Menu extends HttpServlet { // classe para reposicionar para botões
         if(type.equals("cliente")){
             RequestDispatcher dispatcher = request.getRequestDispatcher("/cliente");
             dispatcher.forward(request, response);
+            return;
             
         }
         else if(type.equals("loja")){
+            // response.sendRedirect("/Servlet-Trab/loja");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/loja");
             dispatcher.forward(request, response);
+            return;
             
         }
         else if(type.equals("admin")){
             // response.sendRedirect("/admin.jsp");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/admin");
             dispatcher.forward(request, response);
+            return;
 
         }
         else{
             // aqui n e pra chegar, se chegou ferrou
         }
-    	if (request.getParameter("regClient") != null) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/logado/admin/index.jsp");
-            dispatcher.forward(request, response);
-            return;
-    	} 
-        System.out.println("Ufaa");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/adm.jsp");
-            dispatcher.forward(request, response);
+
+        System.out.println("MEDOOO");
             
         
     }

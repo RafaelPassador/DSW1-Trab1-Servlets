@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class DataBaseFunctions {
 
     private static Statement stmt = null;
-    
+    private static String database = "";    
 
     @Override
     protected void finalize() throws Throwable {
@@ -26,7 +26,7 @@ public class DataBaseFunctions {
     public Connection getConnection(){
         Connection con = null;
         try{
-            String url = "jdbc:mysql://localhost:3306";
+            String url = "jdbc:mysql://localhost:3306" + database;
             con = (Connection) DriverManager.getConnection(url, "root", "password");
         }
         catch(SQLException e){
@@ -46,7 +46,7 @@ public class DataBaseFunctions {
             //rs é o result set com todos os databases do sql
             boolean exists = false;
             while(rs.next()){
-                if(rs.getString(1).toLowerCase() == "sistemaveiculos")
+                if(rs.getString(1).toLowerCase().equals("sistemaveiculos"))
                     exists = true;
             }
             //n pode esquecer de fechar
@@ -55,8 +55,9 @@ public class DataBaseFunctions {
             // caso nao exista a base devemos criar!
             if(!exists) 
                 criar();
-            else
-                stmt.execute("use SistemaVeiculos;");
+            else{
+                database = "/SistemaVeiculos";
+            }
             
         }
         catch(ClassNotFoundException e){
@@ -71,22 +72,25 @@ public class DataBaseFunctions {
     public void criar(){
         try{
             String query = "create database SistemaVeiculos;";
-            stmt.execute(query);
-            query = "use SistemaVeiculos;";
-            stmt.execute(query);
-            query = "create table Cliente(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(21844) not null, cpf char(11) not null, nome varchar(256) not null, telefone varchar(14) not null, sexo varchar(1) not null, nascimento date not null, primary key(email));";
             stmt.executeUpdate(query);
-            query = "create table Loja(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(21844) not null, cnpj char(14) not null, nome varchar(256) not null, descricao varchar(1024) not null, primary key(email));";
+            query = "use SistemaVeiculos;";
+            stmt.executeUpdate(query);
+            System.out.println("here");
+            query = "create table Cliente(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(1200) not null, cpf char(11) not null, nome varchar(256) not null, telefone varchar(14) not null, sexo varchar(1) not null, nascimento date not null, primary key(id));";
+            stmt.executeUpdate(query);
+            System.out.println("here2");
+            query = "create table Loja(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(1200) not null, cnpj char(14) not null, nome varchar(256) not null, descricao varchar(1024) not null, primary key(id));";
             stmt.executeUpdate(query);
             query = "create table Carros(placa char(7) not null, modelo varchar(128) not null, chassi varchar(64) not null, ano bigint not null, quilometragem bigint not null, descricao varchar(1024) not null, valor float not null, loja_id bigint not null, primary key(placa), foreign key(loja_id) references Loja(id));";
             stmt.executeUpdate(query);
-            query = "create table Imagens(id bigint not null auto_increment, carro_id char(7) not null, primary key(id), foreign key(carro_id) references Carros(id));";
+            query = "create table Imagens(id bigint not null auto_increment, carro_id char(7) not null, primary key(id), foreign key(carro_id) references Carros(placa));";
             stmt.executeUpdate(query);
-            query = "create table Proposta(id bigint not null auto_increment, loja_id bigint not null, cliente_id bigint not null, valor float not null, condicoes varchar(21844) not null, estado varchar(11) not null, primary key(id), foreign key(cliente_id) references Cliente(id), foreign key(loja_id) references Loja(id));";
+            query = "create table Proposta(id bigint not null auto_increment, loja_id bigint not null, cliente_id bigint not null, valor float not null, condicoes varchar(1200) not null, estado varchar(11) not null, contraproposta varchar(1200), data_proposta date not null, primary key(id), foreign key(cliente_id) references Cliente(id), foreign key(loja_id) references Loja(id));";
             stmt.executeUpdate(query);
         }
         catch(SQLException e){
             //tratar erros preguicinha aqui é de Query
+            System.out.println(e.getMessage() + " Mas quem diria");
         }
     }
 
@@ -94,7 +98,7 @@ public class DataBaseFunctions {
         Cliente myClient = null;
 
         //Pode dar erro (encriptacao)
-        String sql = "select * from Cliente where email = ? and pass = password(?)";
+        String sql = "select * from Cliente where email = ? and pass = md5(?)";
 
         try{
             Connection conn = getConnection();
@@ -132,7 +136,7 @@ public class DataBaseFunctions {
         Loja myStore = null;
 
         //Pode dar erro (encriptacao)
-        String sql = "select * from Loja where email = ? and pass = password(?)";
+        String sql = "select * from Loja where email = ? and pass = md5(?)";
 
         try{
             Connection conn = getConnection();
@@ -141,6 +145,7 @@ public class DataBaseFunctions {
             statement.setString(2, password);
 
             ResultSet resultSet = statement.executeQuery();
+
 
             if (resultSet.next()){ // se tiver algo resultado da consulta
                 Long id = resultSet.getLong("id");
@@ -160,6 +165,7 @@ public class DataBaseFunctions {
             conn.close();
         } catch (SQLException e) {
            //tratar erros preguicinha aqui é de Query
+           System.out.println(e.getMessage() + " Oh my goodness");
         }
         return myStore;
     }
@@ -239,6 +245,7 @@ public class DataBaseFunctions {
 
         try{
             Connection conn = getConnection();
+            System.out.println("preparing " + sql);
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(1, type ? clienteId : lojaId);
 
@@ -249,8 +256,10 @@ public class DataBaseFunctions {
                 Float valor = resultSet.getFloat("valor");
                 String condicoes = resultSet.getString("condicoes");
                 String estado = resultSet.getString("estado");
+                String contraproposta = resultSet.getString("contraproposta");
+                Date data_proposta = resultSet.getDate("data_proposta");
 
-                myOffer.add(new Proposta(id, valor, condicoes, estado));
+                myOffer.add(new Proposta(id, valor, condicoes, estado, contraproposta, data_proposta));
             }
 
             resultSet.close();
@@ -258,10 +267,38 @@ public class DataBaseFunctions {
             conn.close();
         } catch (SQLException e) {
            //tratar erros preguicinha aqui é de Query
+           System.out.println(e.getMessage());
         }
         return myOffer;
     }
 
+    public void replyOffer(Proposta offer, String contraproposta, String novo_estado){
+        try{
+            offer.setEstado(novo_estado);
+            offer.setContraproposta(contraproposta);
+
+            String sql = "UPDATE Usuario SET contraproposta = ?, estado = ? WHERE id = ?";
+
+            Connection con = getConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            
+            statement.setString(1, contraproposta);
+            statement.setString(2, novo_estado);
+            statement.setLong(3, offer.getId());
+        }
+        catch(SQLException e){
+            //tratar erros preguicinha aqui é de Query
+           System.out.println(e.getMessage());
+        }
+    }
+
+    public void refreshOffers(Loja store){
+        store.setPropostas(getOffers(store.getId(), store.getId(), false));
+    }
+
+    public void refreshOffers(Cliente client){
+        client.setPropostas(getOffers(client.getId(), client.getId(), true));
+    }
 
 
 	// public static void main(String[] args) {

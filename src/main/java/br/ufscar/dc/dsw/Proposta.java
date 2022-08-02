@@ -1,15 +1,20 @@
 package br.ufscar.dc.dsw;
 
+import java.sql.Date;
+
 public class Proposta {
     private Long id;
     private float valor;
-    private String condicoes, estado;
+    private String condicoes, estado, contraproposta;
+    private Date data_proposta;
 
-    public Proposta(Long id, float valor, String condicoes, String estado){
+    public Proposta(Long id, float valor, String condicoes, String estado, String contraproposta, Date data_proposta){
         this.condicoes = condicoes;
         this.estado = estado;
         this.valor = valor;
         this.id = id;
+        this.contraproposta = contraproposta;
+        this.data_proposta = data_proposta;
     }
 
     public String getCondicoes() {
@@ -23,6 +28,18 @@ public class Proposta {
     }
     public Long getId() {
         return id;
+    }
+    public String getContraproposta() {
+        return contraproposta;
+    }
+    public Date getData_proposta() {
+        return data_proposta;
+    }
+    public void setContraproposta(String contraproposta) {
+        this.contraproposta = contraproposta;
+    }
+    public void setData_proposta(Date data_proposta) {
+        this.data_proposta = data_proposta;
     }
     public void setId(Long id) {
         this.id = id;

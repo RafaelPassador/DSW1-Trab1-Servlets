@@ -73,4 +73,7 @@ public class Cliente {
     public void setId(Long id) {
         this.id = id;
     }
+    public void setPropostas(ArrayList<Proposta> propostas) { //necessário para refresh
+        this.propostas = propostas;
+    }
 }

@@ -18,6 +18,9 @@ public class Loja {
         this.carrosLoja = carrosLoja;
         this.propostas = propostas;
     }
+    public void teste(Proposta a){
+        propostas.add(a);
+    }
 
     public ArrayList<Carros> getCarrosLoja() {
         return carrosLoja;
@@ -61,6 +64,8 @@ public class Loja {
     public void setId(Long id) {
         this.id = id;
     }
-
+    public void setPropostas(ArrayList<Proposta> propostas) {
+        this.propostas = propostas;
+    }
 
 }

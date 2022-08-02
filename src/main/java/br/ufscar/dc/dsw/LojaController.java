@@ -21,20 +21,35 @@ public class LojaController extends HttpServlet {
     private static Statement stmt = null;
     private static Connection con = null;
     private static DataBaseFunctions db = new DataBaseFunctions();
+    private static boolean showOffers = false;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
+        System.out.println("post get");
         doGet(req, resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
-       
-       String url = "/loja.jsp";
-       RequestDispatcher rd = req.getRequestDispatcher(url);
-       rd.forward(req, resp); 
+        // boolean showOffers = false;
+        Loja myStore = (Loja) req.getSession().getAttribute("storeLog");
+        System.out.println(myStore.getNome() + " chilling with " + myStore.getPropostas().size() + " offers");
+        if(req.getParameter("listOffers") != null){
+           System.out.println("listing");
+            showOffers = true;
+        }
+        if(req.getParameter("closeOffers") != null){
+            showOffers = false;
+            System.out.println("here");
+        }
+        System.out.println("Setting " + showOffers);
+        req.setAttribute("showOffers", showOffers);
+        
+        String url = "/loja.jsp";
+        RequestDispatcher rd = req.getRequestDispatcher(url);
+        rd.forward(req, resp); 
     }
 
 	
