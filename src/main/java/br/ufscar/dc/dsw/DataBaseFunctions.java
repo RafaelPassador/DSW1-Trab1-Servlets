@@ -26,7 +26,7 @@ public class DataBaseFunctions {
     public Connection getConnection(){
         Connection con = null;
         try{
-            String url = "jdbc:mysql://localhost:3306" + database;
+            String url = "jdbc:mysql://db:3306" + database;
             con = (Connection) DriverManager.getConnection(url, "root", "password");
         }
         catch(SQLException e){
