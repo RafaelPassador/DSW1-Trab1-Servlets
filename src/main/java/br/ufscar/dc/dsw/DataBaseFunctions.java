@@ -71,21 +71,20 @@ public class DataBaseFunctions {
 
     public void criar(){
         try{
+            System.out.println("creating");
             String query = "create database SistemaVeiculos;";
             stmt.executeUpdate(query);
             query = "use SistemaVeiculos;";
             stmt.executeUpdate(query);
-            System.out.println("here");
             query = "create table Cliente(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(1200) not null, cpf char(11) not null, nome varchar(256) not null, telefone varchar(14) not null, sexo varchar(1) not null, nascimento date not null, primary key(id));";
             stmt.executeUpdate(query);
-            System.out.println("here2");
             query = "create table Loja(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(1200) not null, cnpj char(14) not null, nome varchar(256) not null, descricao varchar(1024) not null, primary key(id));";
             stmt.executeUpdate(query);
             query = "create table Carros(placa char(7) not null, modelo varchar(128) not null, chassi varchar(64) not null, ano bigint not null, quilometragem bigint not null, descricao varchar(1024) not null, valor float not null, loja_id bigint not null, primary key(placa), foreign key(loja_id) references Loja(id));";
             stmt.executeUpdate(query);
             query = "create table Imagens(id bigint not null auto_increment, carro_id char(7) not null, primary key(id), foreign key(carro_id) references Carros(placa));";
             stmt.executeUpdate(query);
-            query = "create table Proposta(id bigint not null auto_increment, loja_id bigint not null, cliente_id bigint not null, valor float not null, condicoes varchar(1200) not null, estado varchar(11) not null, contraproposta varchar(1200), data_proposta date not null, primary key(id), foreign key(cliente_id) references Cliente(id), foreign key(loja_id) references Loja(id));";
+            query = "create table Proposta(id bigint not null auto_increment, loja_id bigint not null, cliente_id bigint not null, carro_id char(7) not null, valor float not null, condicoes varchar(1200) not null, estado varchar(11) not null, contraproposta varchar(1200), data_proposta date not null, primary key(id, cliente_id, carro_id), foreign key(cliente_id) references Cliente(id), foreign key(loja_id) references Loja(id), foreign key(carro_id) references Carros(placa));";
             stmt.executeUpdate(query);
         }
         catch(SQLException e){
@@ -170,6 +169,38 @@ public class DataBaseFunctions {
         return myStore;
     }
 
+    public Carros getCarByPlaca(String placa){
+        Carros car = null;
+        
+        String sql = "select * from Carros where placa = ?";
+
+        try{
+            Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, placa);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()){ // se tiver algo resultado da consulta
+                Long lojaId = resultSet.getLong("loja_id");
+                Long ano = resultSet.getLong("ano");
+                Long quilometragem = resultSet.getLong("quilometragem");
+                String modelo = resultSet.getString("modelo");
+                String chassi = resultSet.getString("chassi");
+                String descricao = resultSet.getString("descricao");
+                Float valor = resultSet.getFloat("valor");
+
+                ArrayList<String> imagens = getCarImages(placa);
+                car = new Carros(lojaId, ano, quilometragem, placa, modelo, chassi, descricao, valor, imagens);
+            }
+        }
+        catch(SQLException e){
+            //tratar erros preguicinha aqui é de Query
+            System.out.println("car error " + e.getMessage());
+        }
+        return car;
+    }
+
     public ArrayList<Carros> getStoreCars(Long id){
         ArrayList<Carros> myStore = new ArrayList<>();
 
@@ -184,7 +215,7 @@ public class DataBaseFunctions {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()){ // se tiver algo resultado da consulta
-                Long carId = resultSet.getLong("id");
+                String carId = resultSet.getString("placa");
                 Long ano = resultSet.getLong("ano");
                 Long quilometragem = resultSet.getLong("quilometragem");
                 String placa = resultSet.getString("placa");
@@ -195,7 +226,7 @@ public class DataBaseFunctions {
 
                 ArrayList<String> imagens = getCarImages(carId);
 
-                myStore.add(new Carros(carId, id, ano, quilometragem, placa, modelo, chassi, descricao, valor, imagens));
+                myStore.add(new Carros(id, ano, quilometragem, placa, modelo, chassi, descricao, valor, imagens));
             }
 
             resultSet.close();
@@ -207,7 +238,7 @@ public class DataBaseFunctions {
         return myStore;
     }
 
-    public ArrayList<String> getCarImages(Long id){
+    public ArrayList<String> getCarImages(String id){
         ArrayList<String> myImages = new ArrayList<>();
 
         
@@ -216,7 +247,7 @@ public class DataBaseFunctions {
         try{
             Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setLong(1, id);
+            statement.setString(1, id);
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -258,8 +289,11 @@ public class DataBaseFunctions {
                 String estado = resultSet.getString("estado");
                 String contraproposta = resultSet.getString("contraproposta");
                 Date data_proposta = resultSet.getDate("data_proposta");
+                String placa = resultSet.getString("carro_id");
+                Carros car = getCarByPlaca(placa);
+                Proposta offer = new Proposta(id, valor, car.getValor(), condicoes, estado, contraproposta, placa, car.getModelo(), data_proposta);
 
-                myOffer.add(new Proposta(id, valor, condicoes, estado, contraproposta, data_proposta));
+                myOffer.add(offer);
             }
 
             resultSet.close();

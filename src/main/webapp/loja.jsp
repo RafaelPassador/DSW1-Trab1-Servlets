@@ -22,6 +22,9 @@
                     <table>
                         <thead>
                             <th>Valor</th>
+                            <th>Valor original</th>
+                            <th>Placa do carro</th>
+                            <th>Modelo do carro</th>
                             <th>Condicoes</th>
                             <th>Data</th>
                         </thead>
@@ -30,6 +33,9 @@
                             <c:if test="${offer.getEstado() eq op}">
                                 <tr>
                                     <td>R$ ${offer.getValor()}</td>
+                                    <td>R$ ${offer.getValor_original()}</td>
+                                    <td>${offer.getPlaca()}</td>
+                                    <td>${offer.getModelo()}</td>
                                     <td>${offer.getCondicoes()}</td>
                                     <td>${offer.getData_proposta()}</td>
                                     <td><input type="submit" name="closeOffers" value="ACEITAR"/></td>
@@ -39,6 +45,9 @@
                             <c:if test="${offer.getEstado() ne op}">
                                 <tr>
                                     <td>R$ ${offer.getValor()}</td>
+                                    <td>R$ ${offer.getValor_original()}</td>
+                                    <td>${offer.getPlaca()}</td>
+                                    <td>${offer.getModelo()}</td>
                                     <td>${offer.getCondicoes()}</td>
                                     <td>${offer.getData_proposta()}</td>
                                     <td>${offer.getEstado()}</td>

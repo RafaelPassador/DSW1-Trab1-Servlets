@@ -3,15 +3,14 @@ package br.ufscar.dc.dsw;
 import java.util.ArrayList;
 
 public class Carros {
-    private Long id, loja_id, ano, quilometragem;
+    private Long loja_id, ano, quilometragem;
     private String placa, modelo, chassi, descricao;
     private float valor;
     private ArrayList<String> imagens;
 
-    public Carros(Long id, Long loja_id, Long ano, Long quilometragem, String placa, String modelo, String chassi, String descricao, float valor, ArrayList<String> imagens){
+    public Carros(Long loja_id, Long ano, Long quilometragem, String placa, String modelo, String chassi, String descricao, float valor, ArrayList<String> imagens){
         this.chassi = chassi;
         this.descricao = descricao;
-        this.id = id;
         this.imagens = imagens;
         this.modelo = modelo;
         this.placa = placa;
@@ -35,9 +34,6 @@ public class Carros {
     }
     public String getDescricao() {
         return descricao;
-    }
-    public Long getId() {
-        return id;
     }
     public ArrayList<String> getImagens() {
         return imagens;
@@ -65,9 +61,6 @@ public class Carros {
     }
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-    public void setId(Long id) {
-        this.id = id;
     }
     public void setModelo(String modelo) {
         this.modelo = modelo;

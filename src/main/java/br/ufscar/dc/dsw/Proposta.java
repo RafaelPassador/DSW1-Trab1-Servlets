@@ -4,19 +4,31 @@ import java.sql.Date;
 
 public class Proposta {
     private Long id;
-    private float valor;
-    private String condicoes, estado, contraproposta;
+    private float valor, valor_original;
+    private String condicoes, estado, contraproposta, placa, modelo;
     private Date data_proposta;
 
-    public Proposta(Long id, float valor, String condicoes, String estado, String contraproposta, Date data_proposta){
+    public Proposta(Long id, float valor, float valor_original, String condicoes, String estado, String contraproposta, String placa, String modelo, Date data_proposta){
         this.condicoes = condicoes;
         this.estado = estado;
         this.valor = valor;
         this.id = id;
         this.contraproposta = contraproposta;
         this.data_proposta = data_proposta;
+        this.valor_original = valor_original;
+        this.placa = placa;
+        this.modelo = modelo;
     }
 
+    public String getModelo() {
+        return modelo;
+    }
+    public String getPlaca() {
+        return placa;
+    }
+    public float getValor_original() {
+        return valor_original;
+    }
     public String getCondicoes() {
         return condicoes;
     }
