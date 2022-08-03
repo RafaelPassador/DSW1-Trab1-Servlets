@@ -2,9 +2,9 @@ version: "3.9"
 
 services:
   db:
-    image: mariadb:latest
+    image: mysql:latest
     environment:
-      - MARIADB_ROOT_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
     ports:
       - "3306:3306"
   tomcat:
