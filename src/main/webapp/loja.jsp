@@ -128,7 +128,7 @@
                 </form>
             </div>
         </c:if>
-        <c:if test="${regCar == true}">
+        <c:if test="${insertCars == true}">
             <div id="NewCar">
                 <form action="loja">
                     <table>
@@ -172,7 +172,7 @@
                         </tr>
                             <tr>
                                 <td colspan="2"> 
-                                    <input type="submit" name="bOK" value="Salvar"/>
+                                    <input type="submit" name="bSAVE" value="Salvar"/>
                                 </td>
                             </tr>
                     </table>

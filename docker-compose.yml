@@ -9,6 +9,10 @@ services:
       - "3306:3306"
   tomcat:
     image: tomcat:9.0
+    environment:
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=password
+      - DATABASE_URI=jdbc:mysql://webdev1_db_1:3306/SistemaVeiculos
     volumes:
       - "./target/Servlet-Trab.war:/usr/local/tomcat/webapps/Servlet-Trab.war"
     ports:

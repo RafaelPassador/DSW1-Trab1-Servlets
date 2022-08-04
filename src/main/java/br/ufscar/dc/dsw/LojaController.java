@@ -91,9 +91,12 @@ public class LojaController extends HttpServlet {
             else{
                
                 for(Proposta offer : myStore.getPropostas()){ //buscando a oferta do id passado
+                    
+                    System.out.println(offer.getId() + " aqui tem id " + id + " estado = " + offer.getEstado().toLowerCase());
 
                     if(offer.getId() == Long.parseLong(id)){
-                        if(offer.getEstado().toLowerCase() == "aberto"){
+                        System.out.println("Entrei");
+                        if(offer.getEstado().toLowerCase().equals("aberto")){
                             placa = offer.getPlaca();
                             replying = offer;
                         }
@@ -103,7 +106,7 @@ public class LojaController extends HttpServlet {
                     }
                 }
 
-                if(placa == null) // caso nao ache a placa nao achou a proposta, entao da erro
+                if(placa == null && !erros.isExisteErros()) // caso nao ache a placa nao achou a proposta, entao da erro
                     erros.add("Oferta " + id + " nao existente");
             }
             if(!erros.isExisteErros()){
@@ -119,7 +122,7 @@ public class LojaController extends HttpServlet {
         }
 
 
-        if(req.getParameter("bOK") != null){ //Registrar carro!
+        if(req.getParameter("bSAVE") != null){ //Registrar carro!
             String cnpj = req.getParameter("CNPJ");
 			String placa = req.getParameter("Placa");
             String modelo = req.getParameter("Modelo");
@@ -171,6 +174,7 @@ public class LojaController extends HttpServlet {
         req.setAttribute("showCars", showCars);
         req.setAttribute("insertCars", insertCars);
         req.setAttribute("storeLog", myStore);
+        req.setAttribute("mensagens", erros);
 
         String url = "/loja.jsp";
         RequestDispatcher rd = req.getRequestDispatcher(url);

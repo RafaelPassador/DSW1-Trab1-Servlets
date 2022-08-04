@@ -26,8 +26,8 @@ public class DataBaseFunctions {
     public Connection getConnection(){
         Connection con = null;
         try{
-            String url = "jdbc:mysql://db:3306" + database;
-            con = (Connection) DriverManager.getConnection(url, "root", "password");
+            String url = "jdbc:mysql://db:3306"; //+ database;
+            con = (Connection) DriverManager.getConnection(System.getenv("DATABASE_URI"), "root", "password");
         }
         catch(SQLException e){
             //tratar erros preguicinha aqui é de Query
@@ -154,7 +154,7 @@ public class DataBaseFunctions {
                 String nome = resultSet.getString("nome");
                 String descricao = resultSet.getString("descricao");
 
-                ArrayList<Carros> carros = getStoreCars(id);
+                ArrayList<Carros> carros = getStoreCars(id, cnpj);
                 ArrayList<Proposta> propostas = getOffers(id, id, false);
                 myStore = new Loja(id, email, pass, cnpj, nome, descricao, carros, propostas);
             }
@@ -169,11 +169,10 @@ public class DataBaseFunctions {
         return myStore;
     }
 
-    public Loja getStoreById(long id){
-        Loja myStore = null;
-
+    public String getStoreCnpj(long id){
         //Pode dar erro (encriptacao)
         String sql = "select * from Loja where id = ?";
+        String cnpj = null;
 
         try{
             Connection conn = getConnection();
@@ -183,15 +182,7 @@ public class DataBaseFunctions {
 
 
             if (resultSet.next()){ // se tiver algo resultado da consulta
-                String email = resultSet.getString("email");
-                String pass = resultSet.getString("pass");
-                String cnpj = resultSet.getString("cnpj");
-                String nome = resultSet.getString("nome");
-                String descricao = resultSet.getString("descricao");
-
-                ArrayList<Carros> carros = getStoreCars(id);
-                ArrayList<Proposta> propostas = getOffers(id, id, false);
-                myStore = new Loja(id, email, pass, cnpj, nome, descricao, carros, propostas);
+                cnpj = resultSet.getString("cnpj");
             }
 
             resultSet.close();
@@ -201,10 +192,10 @@ public class DataBaseFunctions {
            //tratar erros preguicinha aqui é de Query
            System.out.println(e.getMessage() + " Oh my goodness");
         }
-        return myStore;
+        return cnpj;
     }
 
-    public Carros getCarByPLate(String placa){
+    public Carros getCarByPlaca(String placa){
         Carros car = null;
         
         String sql = "select * from Carros where placa = ?";
@@ -224,7 +215,7 @@ public class DataBaseFunctions {
                 String chassi = resultSet.getString("chassi");
                 String descricao = resultSet.getString("descricao");
                 Float valor = resultSet.getFloat("valor");
-                String cnpj = getStoreById(lojaId).getCnpj();
+                String cnpj = getStoreCnpj(lojaId);
 
                 ArrayList<String> imagens = getCarImages(placa);
                 car = new Carros(lojaId, ano, quilometragem, placa, modelo, chassi, descricao, valor, imagens, cnpj);
@@ -237,7 +228,7 @@ public class DataBaseFunctions {
         return car;
     }
 
-    public ArrayList<Carros> getStoreCars(Long id){
+    public ArrayList<Carros> getStoreCars(Long id, String cnpj){
         ArrayList<Carros> myStore = new ArrayList<>();
 
         
@@ -259,7 +250,6 @@ public class DataBaseFunctions {
                 String chassi = resultSet.getString("chassi");
                 String descricao = resultSet.getString("descricao");
                 Float valor = resultSet.getFloat("valor");
-                String cnpj = getStoreById(id).getCnpj();
 
                 ArrayList<String> imagens = getCarImages(carId);
 
@@ -327,7 +317,7 @@ public class DataBaseFunctions {
                 String contraproposta = resultSet.getString("contraproposta");
                 Date data_proposta = resultSet.getDate("data_proposta");
                 String placa = resultSet.getString("carro_id");
-                Carros car = getCarByPLate(placa);
+                Carros car = getCarByPlaca(placa);
                 Proposta offer = new Proposta(id, valor, car.getValor(), condicoes, estado, contraproposta, placa, car.getModelo(), data_proposta);
 
                 myOffer.add(offer);
@@ -348,7 +338,7 @@ public class DataBaseFunctions {
             offer.setEstado(novo_estado);
             offer.setContraproposta(contraproposta);
 
-            String sql = "UPDATE Usuario SET contraproposta = ?, estado = ? WHERE id = ?";
+            String sql = "UPDATE Proposta SET contraproposta = ?, estado = ? WHERE id = ?";
 
             Connection con = getConnection();
             PreparedStatement statement = con.prepareStatement(sql);
@@ -356,6 +346,10 @@ public class DataBaseFunctions {
             statement.setString(1, contraproposta);
             statement.setString(2, novo_estado);
             statement.setLong(3, offer.getId());
+
+            statement.executeUpdate();
+            statement.close();
+            con.close();
         }
         catch(SQLException e){
             //tratar erros preguicinha aqui é de Query
