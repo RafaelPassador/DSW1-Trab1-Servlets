@@ -169,6 +169,41 @@ public class DataBaseFunctions {
         return myStore;
     }
 
+    public Loja getStoreById(long id){
+        Loja myStore = null;
+
+        //Pode dar erro (encriptacao)
+        String sql = "select * from Loja where id = ?";
+
+        try{
+            Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+
+            if (resultSet.next()){ // se tiver algo resultado da consulta
+                String email = resultSet.getString("email");
+                String pass = resultSet.getString("pass");
+                String cnpj = resultSet.getString("cnpj");
+                String nome = resultSet.getString("nome");
+                String descricao = resultSet.getString("descricao");
+
+                ArrayList<Carros> carros = getStoreCars(id);
+                ArrayList<Proposta> propostas = getOffers(id, id, false);
+                myStore = new Loja(id, email, pass, cnpj, nome, descricao, carros, propostas);
+            }
+
+            resultSet.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+           //tratar erros preguicinha aqui é de Query
+           System.out.println(e.getMessage() + " Oh my goodness");
+        }
+        return myStore;
+    }
+
     public Carros getCarByPlaca(String placa){
         Carros car = null;
         
@@ -189,9 +224,10 @@ public class DataBaseFunctions {
                 String chassi = resultSet.getString("chassi");
                 String descricao = resultSet.getString("descricao");
                 Float valor = resultSet.getFloat("valor");
+                String cnpj = getStoreById(lojaId).getCnpj();
 
                 ArrayList<String> imagens = getCarImages(placa);
-                car = new Carros(lojaId, ano, quilometragem, placa, modelo, chassi, descricao, valor, imagens);
+                car = new Carros(lojaId, ano, quilometragem, placa, modelo, chassi, descricao, valor, imagens, cnpj);
             }
         }
         catch(SQLException e){
@@ -223,10 +259,11 @@ public class DataBaseFunctions {
                 String chassi = resultSet.getString("chassi");
                 String descricao = resultSet.getString("descricao");
                 Float valor = resultSet.getFloat("valor");
+                String cnpj = getStoreById(id).getCnpj();
 
                 ArrayList<String> imagens = getCarImages(carId);
 
-                myStore.add(new Carros(id, ano, quilometragem, placa, modelo, chassi, descricao, valor, imagens));
+                myStore.add(new Carros(id, ano, quilometragem, placa, modelo, chassi, descricao, valor, imagens, cnpj));
             }
 
             resultSet.close();
@@ -319,6 +356,33 @@ public class DataBaseFunctions {
             statement.setString(1, contraproposta);
             statement.setString(2, novo_estado);
             statement.setLong(3, offer.getId());
+        }
+        catch(SQLException e){
+            //tratar erros preguicinha aqui é de Query
+           System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertCars(Carros carro1){
+        try{
+
+            String sql = "INSERT into Carros (placa, modelo, chassi, ano, quilometragem, descricao, valor, loja_id) values (?, ?, ?, ?, ?, ?, ?, ?)" ;
+
+            Connection con = getConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            
+            statement.setString(1, carro1.getPlaca());
+            statement.setString(2, carro1.getModelo());
+            statement.setString(3, carro1.getChassi());
+            statement.setLong(3, carro1.getAno());
+            statement.setLong(3, carro1.getQuilometragem());
+            statement.setString(2, carro1.getDescricao());
+            statement.setFloat(2, carro1.getValor());
+            statement.setLong(2, carro1.getLoja_id());
+
+            statement.executeUpdate();
+            statement.close();
+            con.close();
         }
         catch(SQLException e){
             //tratar erros preguicinha aqui é de Query

@@ -59,5 +59,56 @@
                 </form>
             </div>
         </c:if>
+        <c:if test="${regCar == true}">
+            <div id="NewCar">
+                <form action="loja">
+                    <table>
+                        <tr>
+                            <th>CNPJ: </th>
+                            <td><input type="text" name="CNPJ"
+                                    /></td>
+                        </tr>
+                        <tr>
+                            <th>Placa: </th>
+                            <td><input type="text" name="Placa" /></td>
+                        </tr>
+                        <tr>
+                            <th>Modelo: </th>
+                            <td><input type="text" name="Modelo" /></td>
+                        </tr>
+                        <tr>
+                            <th>Chassi: </th>
+                            <td><input type="text" name="Chassi" /></td>
+                        </tr>
+                        <tr>
+                            <th>Ano: </th>
+                            <td><input type="text" name="Ano" /></td>
+                        </tr>
+                        <tr>
+                            <th>Quilometragem: </th>
+                            <td><input type="text" name="Quilometragem" /></td>
+                        </tr>
+                        <tr>
+                            <th>Descrição: </th>
+                            <td><input type="text" name="Descricao" /></td>
+                        </tr>
+                        <tr>
+                            <th>Valor: </th>
+                            <td><input type="text" name="Valor" /></td>
+                        </tr>
+                        <tr>
+                        <td colspan="2"> 
+                            <input type="submit" name="bCLOSE" value="Fechar"/>
+                        </td>
+                        </tr>
+                            <tr>
+                                <td colspan="2"> 
+                                    <input type="submit" name="bOK" value="Salvar"/>
+                                </td>
+                            </tr>
+                    </table>
+                </form>
+            </div>
+        </c:if>
     </body>
 </html>
