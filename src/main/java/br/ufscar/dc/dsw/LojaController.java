@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -120,6 +121,8 @@ public class LojaController extends HttpServlet {
 
 
         if(req.getParameter("bOK") != null){ //Registrar carro!
+
+            String imagem = req.getParameter("Imagem");
             String cnpj = req.getParameter("CNPJ");
 			String placa = req.getParameter("Placa");
             String modelo = req.getParameter("Modelo");
@@ -129,6 +132,14 @@ public class LojaController extends HttpServlet {
 			String descricao = req.getParameter("Descricao");
 			String valor = req.getParameter("Valor");
 
+            
+            ArrayList<String> listaimagens = new ArrayList<String>(Arrays.asList(imagem.split(",")));
+
+
+            if (listaimagens.size() > 10)
+            {
+                erros.add("Número máximo de imagens atingido!");
+            }
 
 			if (cnpj == null || cnpj.isEmpty()) {// caso falte dados
 				erros.add("CNPJ não informado!");
@@ -158,9 +169,12 @@ public class LojaController extends HttpServlet {
             if (!(erros.isExisteErros())){
 
                 Loja newLoja1 = (Loja)req.getSession().getAttribute("storeLog");
-                Carros newCar1 = new Carros(newLoja1.getId(), Long.parseLong(ano), Long.parseLong(quilometragem), placa, modelo, chassi, descricao, Float.parseFloat(valor), new ArrayList<String>() , cnpj);
+                Carros newCar1 = new Carros(newLoja1.getId(), Long.parseLong(ano), Long.parseLong(quilometragem), placa, modelo, chassi, descricao, Float.parseFloat(valor), listaimagens, cnpj);
                 //adicionar imagem aqui
                 db.insertCars(newCar1);
+
+                for (String link:listaimagens)
+                db.insertImage(link, placa);
 
             }
 

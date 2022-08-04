@@ -82,7 +82,7 @@ public class DataBaseFunctions {
             stmt.executeUpdate(query);
             query = "create table Carros(placa char(7) not null, modelo varchar(128) not null, chassi varchar(64) not null, ano bigint not null, quilometragem bigint not null, descricao varchar(1024) not null, valor float not null, loja_id bigint not null, primary key(placa), foreign key(loja_id) references Loja(id));";
             stmt.executeUpdate(query);
-            query = "create table Imagens(id bigint not null auto_increment, carro_id char(7) not null, primary key(id), foreign key(carro_id) references Carros(placa));";
+            query = "create table Imagens(id bigint not null auto_increment, carro_id char(7) not null, link text not null, primary key(id), foreign key(carro_id) references Carros(placa));";
             stmt.executeUpdate(query);
             query = "create table Proposta(id bigint not null auto_increment, loja_id bigint not null, cliente_id bigint not null, carro_id char(7) not null, valor float not null, condicoes varchar(1200) not null, estado varchar(11) not null, contraproposta varchar(1200), data_proposta date not null, primary key(id, cliente_id, carro_id), foreign key(cliente_id) references Cliente(id), foreign key(loja_id) references Loja(id), foreign key(carro_id) references Carros(placa));";
             stmt.executeUpdate(query);
@@ -379,6 +379,28 @@ public class DataBaseFunctions {
             statement.setString(2, carro1.getDescricao());
             statement.setFloat(2, carro1.getValor());
             statement.setLong(2, carro1.getLoja_id());
+
+            statement.executeUpdate();
+            statement.close();
+            con.close();
+        }
+        catch(SQLException e){
+            //tratar erros preguicinha aqui é de Query
+           System.out.println(e.getMessage());
+        }
+    }
+
+    public void insertImage(String link, String placa){
+        try{
+
+            String sql = "INSERT into Imagens (carro_id, link) values (?, ?)" ;
+
+            Connection con = getConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+
+            statement.setString(1, placa);
+            statement.setString(2, link);
+        
 
             statement.executeUpdate();
             statement.close();
