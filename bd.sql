@@ -11,4 +11,5 @@ insert into Loja(email, pass, cnpj, nome, descricao) values ('loja', md5('loja')
 insert into Carros (placa, modelo, chassi, ano, quilometragem, descricao, valor, loja_id) values ('abc1234', 'Ferrari', 'ahuyshuia', 2021, 10, 'Que carrao em', 12674.70, 1);
 insert into Cliente(email, pass, cpf, nome, telefone, sexo, nascimento) values ('cliente', md5('cliente'), '1345', 'Jorge', '40028922', 'M', '2001-07-09');
 insert into Proposta(loja_id, cliente_id, carro_id, valor, condicoes, estado, data_proposta) values (1, 1, 'abc1234', 12000, 'tem que ter glub', 'ABERTO', curtime());
+insert into Imagens (placa, link) values ('abc1234', 'link');
 

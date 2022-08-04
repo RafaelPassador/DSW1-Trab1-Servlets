@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.print.DocFlavor.STRING;
+
 //this is a DAO
 
 public class DataBaseFunctions {
@@ -204,6 +206,37 @@ public class DataBaseFunctions {
         return myStore;
     }
 
+    public String getCNPJById(long id){
+
+        //Pode dar erro (encriptacao)
+        String sql = "select cnpj from Loja where id = ?";
+
+        try{
+            Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            String cnpj = null;
+
+            if (resultSet.next()){ // se tiver algo resultado da consulta
+                cnpj = resultSet.getString("cnpj");
+
+            }
+
+            resultSet.close();
+            statement.close();
+            conn.close();
+
+            return cnpj;
+
+        } 
+        
+        catch (SQLException e) {
+           //tratar erros preguicinha aqui é de Query
+        System.out.println(e.getMessage() + " Oh my goodness");
+        }
+        return null;
+    }
     public Carros getCarByPLate(String placa){
         Carros car = null;
         
@@ -224,7 +257,7 @@ public class DataBaseFunctions {
                 String chassi = resultSet.getString("chassi");
                 String descricao = resultSet.getString("descricao");
                 Float valor = resultSet.getFloat("valor");
-                String cnpj = getStoreById(lojaId).getCnpj();
+                String cnpj = getCNPJById(lojaId);
 
                 ArrayList<String> imagens = getCarImages(placa);
                 car = new Carros(lojaId, ano, quilometragem, placa, modelo, chassi, descricao, valor, imagens, cnpj);
@@ -259,7 +292,7 @@ public class DataBaseFunctions {
                 String chassi = resultSet.getString("chassi");
                 String descricao = resultSet.getString("descricao");
                 Float valor = resultSet.getFloat("valor");
-                String cnpj = getStoreById(id).getCnpj();
+                String cnpj = getCNPJById(id);
 
                 ArrayList<String> imagens = getCarImages(carId);
 
