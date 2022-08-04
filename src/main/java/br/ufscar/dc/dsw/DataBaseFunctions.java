@@ -267,6 +267,25 @@ public class DataBaseFunctions {
         }
         return myStore;
     }
+    
+    public ArrayList<Carros> getCars() {
+        ArrayList<Carros> carros = new ArrayList<>();
+        try {
+            Connection conn = getConnection();
+            String sql = "select id from Loja";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                carros.addAll(getStoreCars(resultSet.getLong("id")));
+            }
+            resultSet.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+            //tratar erros preguicinha aqui é de Query
+        }
+        return carros;
+    }
 
     public ArrayList<String> getCarImages(String id){
         ArrayList<String> myImages = new ArrayList<>();
