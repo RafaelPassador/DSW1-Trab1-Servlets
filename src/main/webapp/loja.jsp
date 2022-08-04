@@ -25,6 +25,40 @@
                 <input type="submit" name="listOffers" value="Listar Propostas"/> <br>
 
         </form>
+        <c:if test = "${showCars == true}">
+            <div id = "Cars">
+                <form action="loja">
+                    <table>
+                        <thead>
+                            <th>Ano</th>
+                            <th>Km rodados</th>
+                            <th>Placa</th>
+                            <th>Chassi</th>
+                            <th>Descricao</th>
+                            <th>Valor</th>
+                        </thead>
+                            <c:forEach var="car" items="${storeLog.getCarrosLoja()}">
+                                <tr>
+                                    <td>${car.getAno()}</td>
+                                    <td>${car.getQuilometragem()}</td>
+                                    <td>${car.getPlaca()}</td>
+                                    <td>${car.getChassi()}</td>
+                                    <td>${car.getDescricao()}</td>
+                                    <td>R$ ${car.getValor()}</td>
+                                    <c:forEach var="image" items="$car.getImagens()">
+                                        <td>
+                                            <img src="${image}" alt="">
+                                        </td>
+                                    </c:forEach>
+                                </tr>
+                            </c:forEach>
+                            <th>
+                                <input type="submit" name="closeCars" value="FECHAR"/>
+                            </th>
+                        </table>
+                </form>
+            </div>
+        </c:if>
         <c:if test="${showOffers == true}">
             <div id="Offers">
                 <form action="loja">

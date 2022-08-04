@@ -24,6 +24,7 @@ public class LojaController extends HttpServlet {
     private static Connection con = null;
     private static DataBaseFunctions db = new DataBaseFunctions();
     private static boolean showOffers = false;
+    private static boolean showCars = false;
     private static boolean insertCars = false;
 
 
@@ -52,7 +53,12 @@ public class LojaController extends HttpServlet {
         if(req.getParameter("closeOffers") != null){
             showOffers = false;
         }
-
+        if(req.getParameter("listCars") != null){
+            showCars = true;
+        }
+        if(req.getParameter("closeCars") != null){
+            showCars = false;
+        }
         
         if(req.getParameter("regCar") != null){
             System.out.println("registering");
@@ -162,7 +168,9 @@ public class LojaController extends HttpServlet {
         }
         System.out.println("Setting " + showOffers);
         req.setAttribute("showOffers", showOffers);
+        req.setAttribute("showCars", showCars);
         req.setAttribute("insertCars", insertCars);
+        req.setAttribute("storeLog", myStore);
 
         String url = "/loja.jsp";
         RequestDispatcher rd = req.getRequestDispatcher(url);
