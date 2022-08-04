@@ -11,6 +11,15 @@
     <body>
         <form action="loja">
             <h1>Bem vindo ${storeLog.getNome()}</h1>
+            <c:if test="${mensagens.existeErros}">
+            <div id="erro">
+                <ul>
+                    <c:forEach var="erro" items="${mensagens.erros}">
+                        <li> ${erro} </li>
+                        </c:forEach>
+                </ul>
+            </div>
+        </c:if>
                 <input type="submit" name="regCar" value="Cadastrar Veiculo"/> <br>
                 <input type="submit" name="listCars" value="Listar Veiculos"/> <br>
                 <input type="submit" name="listOffers" value="Listar Propostas"/> <br>
@@ -21,6 +30,7 @@
                 <form action="loja">
                     <table>
                         <thead>
+                            <th>Id</th>
                             <th>Valor</th>
                             <th>Valor original</th>
                             <th>Placa do carro</th>
@@ -32,18 +42,7 @@
                             <c:set var="op" value ="ABERTO"></c:set>
                             <c:if test="${offer.getEstado() eq op}">
                                 <tr>
-                                    <td>R$ ${offer.getValor()}</td>
-                                    <td>R$ ${offer.getValor_original()}</td>
-                                    <td>${offer.getPlaca()}</td>
-                                    <td>${offer.getModelo()}</td>
-                                    <td>${offer.getCondicoes()}</td>
-                                    <td>${offer.getData_proposta()}</td>
-                                    <td><input type="submit" name="closeOffers" value="ACEITAR"/></td>
-                                    <td><input type="submit" name="decline" value="RECUSAR"/></td>
-                                </tr>
-                            </c:if>
-                            <c:if test="${offer.getEstado() ne op}">
-                                <tr>
+                                    <td>${offer.getId()}</td>
                                     <td>R$ ${offer.getValor()}</td>
                                     <td>R$ ${offer.getValor_original()}</td>
                                     <td>${offer.getPlaca()}</td>
@@ -53,9 +52,45 @@
                                     <td>${offer.getEstado()}</td>
                                 </tr>
                             </c:if>
-                            </c:forEach>
+                            <c:if test="${offer.getEstado() ne op}">
+                                <tr>
+                                    <td>${offer.getId()}</td>
+                                    <td>R$ ${offer.getValor()}</td>
+                                    <td>R$ ${offer.getValor_original()}</td>
+                                    <td>${offer.getPlaca()}</td>
+                                    <td>${offer.getModelo()}</td>
+                                    <td>${offer.getCondicoes()}</td>
+                                    <td>${offer.getData_proposta()}</td>
+                                    <td>${offer.getEstado()}</td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
                     </table>
-                        <input type="submit" name="closeOffers" value="FECHAR"/>
+                    <table>
+                        <tr>
+                            <th>Placa do carro*: </th>
+                            <td><input type="text" name="offerId"/></td>
+                        </tr>
+                        <tr>
+                            <th>Valor: </th>
+                            <td><input type="number" step="any" name="counterOfferValue"/></td>
+                        </tr>
+                        <tr>
+                            <th>Condições: </th>
+                            <td><input type="password" name="counterOfferCondition" /></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input type="submit" name="acceptOffer" value="ACEITAR"/>
+                            </th>
+                            <th>
+                                <input type="submit" name="declineOffer" value="RECUSAR"/>
+                            </th>
+                            <th>
+                                <input type="submit" name="closeOffers" value="FECHAR"/>
+                            </th>
+                        </tr>
+                    </table>
                 </form>
             </div>
         </c:if>

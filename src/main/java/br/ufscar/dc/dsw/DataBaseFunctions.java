@@ -204,7 +204,7 @@ public class DataBaseFunctions {
         return myStore;
     }
 
-    public Carros getCarByPlaca(String placa){
+    public Carros getCarByPLate(String placa){
         Carros car = null;
         
         String sql = "select * from Carros where placa = ?";
@@ -327,7 +327,7 @@ public class DataBaseFunctions {
                 String contraproposta = resultSet.getString("contraproposta");
                 Date data_proposta = resultSet.getDate("data_proposta");
                 String placa = resultSet.getString("carro_id");
-                Carros car = getCarByPlaca(placa);
+                Carros car = getCarByPLate(placa);
                 Proposta offer = new Proposta(id, valor, car.getValor(), condicoes, estado, contraproposta, placa, car.getModelo(), data_proposta);
 
                 myOffer.add(offer);
