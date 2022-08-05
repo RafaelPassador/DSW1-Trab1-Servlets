@@ -38,11 +38,9 @@ public class ClienteController extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        //Long id, float valor, float valor_original, String condicoes, String estado, String contraproposta, String placa, String modelo, Date data_proposta
-
         HttpSession session = req.getSession();
         
-        Cliente cliente = (Cliente) session.getAttribute("cliente");
+        Cliente cliente = (Cliente) session.getAttribute("clientLog");
         Proposta propostaCliente = new Proposta((Long) session.getAttribute("id"), 
         (float) session.getAttribute("valorOfertado"), (float) session.getAttribute("valorOriginal"), (String) session.getAttribute("condicoes"),
         (String) session.getAttribute("estado"), (String) session.getAttribute("contraProposta"), (String) session.getAttribute("placa"),
@@ -60,7 +58,7 @@ public class ClienteController extends HttpServlet
 
         if (podeAbrirProposta)
         {
-            db.refreshOffers(cliente);
+            db.insertProposta(propostaCliente, cliente);
             String url = "/cliente.jsp";
             RequestDispatcher rd = req.getRequestDispatcher(url);
             rd.forward(req, resp);

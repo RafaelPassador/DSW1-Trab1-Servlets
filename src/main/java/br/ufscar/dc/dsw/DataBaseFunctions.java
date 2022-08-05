@@ -428,7 +428,7 @@ public class DataBaseFunctions {
         }
     }
 
-    public void insertProposta(Proposta proposta){
+    public void insertProposta(Proposta proposta, Cliente cliente){
         try{
     
             String sql = "INSERT into Proposta (loja_id, cliente_id, carro_id, valor, condicoes, estado, contraproposta, data_proposta) values (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -436,9 +436,8 @@ public class DataBaseFunctions {
             Connection con = getConnection();
             PreparedStatement statement = con.prepareStatement(sql);
             
-            // Precisamos do id da loja e do id do cliente
-            //statement.setLong(1, proposta.getId());
-            //statement.setString(2, proposta.getCliente());
+            statement.setLong(1, getCarByPLate(proposta.getPlaca()).getLoja_id());
+            statement.setLong(2, cliente.getId());
             statement.setString(3, proposta.getModelo()); //aparentemente carro_id é char
             statement.setFloat(4, proposta.getValor());
             statement.setString(5, proposta.getCondicoes());
