@@ -20,6 +20,17 @@ public class Proposta {
         this.modelo = modelo;
     }
 
+    public Proposta(Long id, float valor, String condicoes, String estado, String placa, String modelo, Date data_proposta){
+        this.condicoes = condicoes;
+        this.estado = estado;
+        this.valor = valor;
+        this.id = id;
+        this.data_proposta = data_proposta;
+        this.placa = placa;
+        this.modelo = modelo;
+    }
+
+
     public String getModelo() {
         return modelo;
     }
