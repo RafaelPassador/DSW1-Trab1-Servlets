@@ -390,11 +390,11 @@ public class DataBaseFunctions {
             statement.setString(1, carro1.getPlaca());
             statement.setString(2, carro1.getModelo());
             statement.setString(3, carro1.getChassi());
-            statement.setLong(3, carro1.getAno());
-            statement.setLong(3, carro1.getQuilometragem());
-            statement.setString(2, carro1.getDescricao());
-            statement.setFloat(2, carro1.getValor());
-            statement.setLong(2, carro1.getLoja_id());
+            statement.setLong(4, carro1.getAno());
+            statement.setLong(5, carro1.getQuilometragem());
+            statement.setString(6, carro1.getDescricao());
+            statement.setFloat(7, carro1.getValor());
+            statement.setLong(8, carro1.getLoja_id());
 
             statement.executeUpdate();
             statement.close();
