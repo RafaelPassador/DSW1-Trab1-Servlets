@@ -57,6 +57,7 @@ public class LoginController extends HttpServlet {
                     Cliente client = db.getClientByLogin(login, password);
                     if(client != null){//somente se bater login e senha ele pode ser redirecionado
                         //salva o cliente na sessão
+                        System.out.println("Cliente logado: " + client.getNome());
                         req.getSession().setAttribute("clientLog", client);
                         logged = true;
                     }

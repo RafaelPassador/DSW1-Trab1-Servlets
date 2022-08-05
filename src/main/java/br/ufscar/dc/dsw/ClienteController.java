@@ -39,18 +39,20 @@ public class ClienteController extends HttpServlet
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         HttpSession session = req.getSession();
+        db.checkCreation();
         
         Cliente cliente = (Cliente) session.getAttribute("clientLog");
-        Proposta propostaCliente = new Proposta((Long) session.getAttribute("id"), 
-        (float) session.getAttribute("valorOfertado"), (float) session.getAttribute("valorOriginal"), (String) session.getAttribute("condicoes"),
-        (String) session.getAttribute("estado"), (String) session.getAttribute("contraProposta"), (String) session.getAttribute("placa"),
-        (String) session.getAttribute("modelo"), (Date) session.getAttribute("dataProposta"));
+        Proposta propostaCliente = new Proposta((Long) session.getAttribute("id"),
+        Float.parseFloat(req.getParameter("valorOfertado")), Float.parseFloat(req.getParameter("valorOriginal")),
+        req.getParameter("condicoes"),
+        req.getParameter("estado"), req.getParameter("contraProposta"), req.getParameter("placa"),
+        req.getParameter("modelo"), new Date(System.currentTimeMillis()));
 
         boolean podeAbrirProposta = true;
 
         for (Proposta proposta : cliente.getPropostas())
         {
-            if (proposta.getEstado() == "Aberto")
+            if (proposta.getEstado().toLowerCase().equals("Aberto") && proposta.getPlaca().equals(propostaCliente.getPlaca()))
             {
                 podeAbrirProposta = false;
             }
