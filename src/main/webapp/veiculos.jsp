@@ -9,7 +9,7 @@
         <link href="${pageContext.request.contextPath}/layout.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <h1>Carros</h1>
+        <h1>Listagem dos Carros:</h1>
         <table>
             <tr>
                 <th>Ano</th>
@@ -20,7 +20,6 @@
                 <th>Valor</th>
             </tr>
             <c:forEach var="car" items="${cars}">
-                bodria
                 <tr>
                     <td>${car.getAno()}</td>
                     <td>${car.getQuilometragem()}</td>

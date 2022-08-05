@@ -9,7 +9,8 @@
         <link href="${pageContext.request.contextPath}/layout.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <h1>Bem vindo Admin</h1>
+        <h1>Bem vindo Admin!</h1>
+        <h2>Selecione uma opção:</h2>
             <input type="submit" name="regLoja" value="Cadastrar Loja"/> <br>
             <input type="submit" name="regClient" value="Cadastrar Cliente"/> <br>
     </body>

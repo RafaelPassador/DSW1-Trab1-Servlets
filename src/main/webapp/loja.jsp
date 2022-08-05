@@ -11,6 +11,7 @@
     <body>
         <form action="loja">
             <h1>Bem vindo ${storeLog.getNome()}</h1>
+            <h2>Selecione uma opção: </h2>
             <c:if test="${mensagens.existeErros}">
             <div id="erro">
                 <ul>
@@ -131,6 +132,7 @@
         <c:if test="${insertCars == true}">
             <div id="NewCar">
                 <form action="loja">
+                <h1> Insira os dados do carro para o cadastro! </h1>
                     <table>
                         <tr>
                             <th>CNPJ: </th>
@@ -150,7 +152,7 @@
                             <td><input type="text" name="Chassi" /></td>
                         </tr>
                         <tr>
-                            <th>Ano: </th>
+                            <th>Ano (Ex: 2022): </th>
                             <td><input type="text" name="Ano" /></td>
                         </tr>
                         <tr>

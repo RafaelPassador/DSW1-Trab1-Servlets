@@ -48,20 +48,20 @@ public class LojaController extends HttpServlet {
         db.checkCreation();
         Loja myStore = (Loja) req.getSession().getAttribute("storeLog");
         System.out.println(myStore.getNome() + " chilling with " + myStore.getPropostas().size() + " offers");
-        if(req.getParameter("listOffers") != null){
+        if(req.getParameter("listOffers") != null && insertCars == false && showCars == false){
             showOffers = true;
         }
         if(req.getParameter("closeOffers") != null){
             showOffers = false;
         }
-        if(req.getParameter("listCars") != null){
+        if(req.getParameter("listCars") != null && insertCars == false && showOffers == false){
             showCars = true;
         }
         if(req.getParameter("closeCars") != null){
             showCars = false;
         }
         
-        if(req.getParameter("regCar") != null){
+        if(req.getParameter("regCar") != null && showCars == false && showOffers == false){
             System.out.println("registering");
             insertCars = true;
         }

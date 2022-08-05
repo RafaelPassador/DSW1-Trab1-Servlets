@@ -9,7 +9,9 @@
         <link href="${pageContext.request.contextPath}/layout.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <h1>Autenticação de Usuário</h1>
+        <h1>Bem vindo ao Sistema de Compra e Venda de Veículos!</h1>
+        <h2>Autenticação de Usuário</h2>
+        <h3>Faça seu Login!</h3>
         <c:if test="${mensagens.existeErros}">
             <div id="erro">
                 <ul>
