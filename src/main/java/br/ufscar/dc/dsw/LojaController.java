@@ -134,9 +134,11 @@ public class LojaController extends HttpServlet {
             String quilometragem = req.getParameter("Quilometragem");
 			String descricao = req.getParameter("Descricao");
 			String valor = req.getParameter("Valor");
+            ArrayList<String> listaimagens = null;
 
-            
-            ArrayList<String> listaimagens = new ArrayList<String>(Arrays.asList(imagem.split(",")));
+            if(imagen != null || ! imagem.isEmpty()){
+                listaImagens = new ArrayList<String>(Arrays.asList(imagem.split(",")));
+            }
 
 
             if (listaimagens.size() > 10)
