@@ -197,7 +197,7 @@ public class DataBaseFunctions {
         return cnpj;
     }
 
-    public Carros getCarByPLate(String placa){
+    public Carros getCarByPlate(String placa){
         Carros car = null;
         
         String sql = "select * from Carros where placa = ?";
@@ -339,7 +339,7 @@ public class DataBaseFunctions {
                 String contraproposta = resultSet.getString("contraproposta");
                 Date data_proposta = resultSet.getDate("data_proposta");
                 String placa = resultSet.getString("carro_id");
-                Carros car = getCarByPLate(placa);
+                Carros car = getCarByPlate(placa);
                 Proposta offer = new Proposta(id, valor, car.getValor(), condicoes, estado, contraproposta, placa, car.getModelo(), data_proposta);
 
                 myOffer.add(offer);
@@ -431,19 +431,18 @@ public class DataBaseFunctions {
     public void insertProposta(Proposta proposta, Cliente cliente){
         try{
     
-            String sql = "INSERT into Proposta (loja_id, cliente_id, carro_id, valor, condicoes, estado, contraproposta, data_proposta) values (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT into Proposta (loja_id, cliente_id, carro_id, valor, condicoes, estado, data_proposta) values (?, ?, ?, ?, ?, ?, ?)";
     
             Connection con = getConnection();
             PreparedStatement statement = con.prepareStatement(sql);
             
-            statement.setLong(1, getCarByPLate(proposta.getPlaca()).getLoja_id());
+            statement.setLong(1, getCarByPlate(proposta.getPlaca()).getLoja_id());
             statement.setLong(2, cliente.getId());
-            statement.setString(3, proposta.getModelo()); //aparentemente carro_id é char
+            statement.setString(3, proposta.getPlaca());
             statement.setFloat(4, proposta.getValor());
             statement.setString(5, proposta.getCondicoes());
             statement.setString(6, proposta.getEstado());
-            statement.setString(7, proposta.getContraproposta());
-            statement.setDate(8, proposta.getData_proposta());
+            statement.setDate(7, proposta.getData_proposta());
     
             statement.executeUpdate();
             statement.close();

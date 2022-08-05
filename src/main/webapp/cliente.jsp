@@ -9,11 +9,41 @@
         <link href="${pageContext.request.contextPath}/layout.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <form action="adm">
-            <h1>Bem vindo Admin</h1>
-                <input type="submit" name="regLoja" value="Cadastrar Loja"/> <br>
-                <input type="submit" name="regClient" value="Cadastrar Cliente"/> <br>
-                <input type="submit" name="regClient" value="Cadastrar Cliente2"/> <br>
+        <h1>Bem vindo Cliente!</h1>
+        <form action="cliente">
+                <table>
+                    <tr>
+                        <th> Envie uma nova proposta: </th>
+                    </tr>
+                    <tr>
+                        <th> Valor Ofertado: </th>
+                        <td><input type="text" name="valorOfertado"/></td>
+                    </tr>
+                    <tr>
+                        <th> Condições: </th>
+                        <td>
+                            <input type="text" name="condicoes"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th> Placa: </th>
+                        <td>
+                            <input type="text" name="placa"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th> Modelo: </th>
+                        <td>
+                            <input type="text" name="modelo"/>
+                        </td>
+                    </tr>
+                    <tr>                
+                        <td> 
+                            <input type="submit" name="botaoEnviar" value="Enviar Proposta"/>
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit" name="botaoVisualizar" value="Visualizar as propostas"/> <br>
         </form>
     </body>
 </html>

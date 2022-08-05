@@ -40,30 +40,38 @@ public class ClienteController extends HttpServlet
     {
         HttpSession session = req.getSession();
         db.checkCreation();
-        
-        Cliente cliente = (Cliente) session.getAttribute("clientLog");
-        Proposta propostaCliente = new Proposta((Long) session.getAttribute("id"),
-        Float.parseFloat(req.getParameter("valorOfertado")), Float.parseFloat(req.getParameter("valorOriginal")),
-        req.getParameter("condicoes"),
-        req.getParameter("estado"), req.getParameter("contraProposta"), req.getParameter("placa"),
-        req.getParameter("modelo"), new Date(System.currentTimeMillis()));
 
-        boolean podeAbrirProposta = true;
-
-        for (Proposta proposta : cliente.getPropostas())
+        if (req.getParameter("botaoEnviar") != null)
         {
-            if (proposta.getEstado().toLowerCase().equals("Aberto") && proposta.getPlaca().equals(propostaCliente.getPlaca()))
+            Cliente cliente = (Cliente) session.getAttribute("clientLog");
+            
+            System.out.println("cliente: " + cliente);
+            
+            Carros carro = db.getCarByPlate(req.getParameter("placa"));
+            Proposta propostaCliente = new Proposta((Long) session.getAttribute("id"),
+            Float.parseFloat(req.getParameter("valorOfertado")),
+            req.getParameter("condicoes"),"Aberto", carro.getPlaca(),
+            carro.getModelo(), new Date(System.currentTimeMillis()));
+
+            boolean podeAbrirProposta = true;
+
+            for (Proposta proposta : cliente.getPropostas())
             {
-                podeAbrirProposta = false;
+                if (proposta.getEstado().toLowerCase().equals("aberto") && proposta.getPlaca().equals(propostaCliente.getPlaca()))
+                {
+                    System.out.println("ALOOOOo");
+                    podeAbrirProposta = false;
+                }
+            }
+
+            if (podeAbrirProposta)
+            {
+                db.insertProposta(propostaCliente, cliente);
             }
         }
 
-        if (podeAbrirProposta)
-        {
-            db.insertProposta(propostaCliente, cliente);
-            String url = "/cliente.jsp";
-            RequestDispatcher rd = req.getRequestDispatcher(url);
-            rd.forward(req, resp);
-        }
+        String url = "/cliente.jsp";
+        RequestDispatcher rd = req.getRequestDispatcher(url);
+        rd.forward(req, resp);
     }
 }
