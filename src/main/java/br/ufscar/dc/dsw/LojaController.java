@@ -125,6 +125,9 @@ public class LojaController extends HttpServlet {
 
         if(req.getParameter("bSAVE") != null){ //Registrar carro!
 
+            try{
+
+            
             String imagem = req.getParameter("Imagem");
             String cnpj = req.getParameter("CNPJ");
 			String placa = req.getParameter("Placa");
@@ -136,8 +139,8 @@ public class LojaController extends HttpServlet {
 			String valor = req.getParameter("Valor");
             ArrayList<String> listaimagens = null;
 
-            if(imagen != null || ! imagem.isEmpty()){
-                listaImagens = new ArrayList<String>(Arrays.asList(imagem.split(",")));
+            if(imagem != null || ! imagem.isEmpty()){
+                listaimagens = new ArrayList<String>(Arrays.asList(imagem.split(",")));
             }
 
 
@@ -171,6 +174,8 @@ public class LojaController extends HttpServlet {
 				erros.add("Valor não informado!");
 			}
 
+
+
             if (!(erros.isExisteErros())){
 
                 Loja newLoja1 = (Loja)req.getSession().getAttribute("storeLog");
@@ -182,6 +187,10 @@ public class LojaController extends HttpServlet {
                 db.insertImage(link, placa);
 
             }
+
+        } catch(Exception e){
+            erros.add(e.getMessage());
+        }
 
 
         }
