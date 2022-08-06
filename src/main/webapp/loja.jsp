@@ -46,7 +46,7 @@
                                     <td>${car.getChassi()}</td>
                                     <td>${car.getDescricao()}</td>
                                     <td>R$ ${car.getValor()}</td>
-                                    <c:forEach var="image" items="$car.getImagens()">
+                                    <c:forEach var="image" items="${car.getImagens()}">
                                         <td>
                                             <img src="${image}" alt="">
                                         </td>

@@ -67,5 +67,8 @@ public class Loja {
     public void setPropostas(ArrayList<Proposta> propostas) {
         this.propostas = propostas;
     }
+    public void setCarrosLoja(ArrayList<Carros> carrosLoja) {
+        this.carrosLoja = carrosLoja;
+    }
 
 }

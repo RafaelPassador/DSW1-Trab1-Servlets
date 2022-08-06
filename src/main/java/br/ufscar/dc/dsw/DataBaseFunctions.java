@@ -302,7 +302,7 @@ public class DataBaseFunctions {
 
             while (resultSet.next()){ // se tiver algo resultado da consulta
 
-                String endereco = resultSet.getString("endereco");
+                String endereco = resultSet.getString("link");
 
                 myImages.add(endereco);
             }
@@ -460,6 +460,10 @@ public class DataBaseFunctions {
 
     public void refreshOffers(Cliente client){
         client.setPropostas(getOffers(client.getId(), client.getId(), true));
+    }
+
+    public void refreshCars(Loja store){
+        store.setCarrosLoja(getStoreCars(store.getId()));
     }
 
 

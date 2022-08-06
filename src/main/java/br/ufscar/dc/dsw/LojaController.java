@@ -49,12 +49,14 @@ public class LojaController extends HttpServlet {
         Loja myStore = (Loja) req.getSession().getAttribute("storeLog");
         System.out.println(myStore.getNome() + " chilling with " + myStore.getPropostas().size() + " offers");
         if(req.getParameter("listOffers") != null && insertCars == false && showCars == false){
+            db.refreshOffers(myStore);
             showOffers = true;
         }
         if(req.getParameter("closeOffers") != null){
             showOffers = false;
         }
         if(req.getParameter("listCars") != null && insertCars == false && showOffers == false){
+            db.refreshCars(myStore);
             showCars = true;
         }
         if(req.getParameter("closeCars") != null){
@@ -140,6 +142,7 @@ public class LojaController extends HttpServlet {
             ArrayList<String> listaimagens = null;
 
             if(imagem != null || ! imagem.isEmpty()){
+                System.out.println(imagem.split(","));
                 listaimagens = new ArrayList<String>(Arrays.asList(imagem.split(",")));
             }
 
@@ -152,6 +155,9 @@ public class LojaController extends HttpServlet {
 			if (cnpj == null || cnpj.isEmpty()) {// caso falte dados
 				erros.add("CNPJ não informado!");
 			}
+            else if(! cnpj.equals(myStore.getCnpj())){
+                erros.add("CNPJ incorreto!");
+            }
 			if (placa == null || placa.isEmpty()) {
 				erros.add("Placa não informada!");
 			}
@@ -184,7 +190,9 @@ public class LojaController extends HttpServlet {
                 db.insertCars(newCar1);
 
                 for (String link:listaimagens)
-                db.insertImage(link, placa);
+                    db.insertImage(link, placa);
+                
+                insertCars = false;
 
             }
 
