@@ -35,39 +35,38 @@
         </table>
         <p> </p>
         <form action="cliente">
-                <table>
-                    <tr>
-                        <th> Envie uma nova proposta: </th>
-                    </tr>
-                    <tr>
-                        <th> Valor Ofertado: </th>
-                        <td><input type="text" name="valorOfertado"/></td>
-                    </tr>
-                    <tr>
-                        <th> Condições: </th>
-                        <td>
-                            <input type="text" name="condicoes"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> Placa: </th>
-                        <td>
-                            <input type="text" name="placa"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> Modelo: </th>
-                        <td>
-                            <input type="text" name="modelo"/>
-                        </td>
-                    </tr>
-                    <tr>                
-                        <td> 
-                            <input type="submit" name="botaoEnviar" value="Enviar Proposta"/>
-                        </td>
-                    </tr>
-                </table>
-                <input type="submit" name="botaoVisualizar" value="Visualizar as propostas"/> <br>
+            <table>
+                <tr>
+                    <th> Envie uma nova proposta: </th>
+                </tr>
+                <tr>
+                    <th> Valor Ofertado: </th>
+                    <td><input type="text" name="valorOfertado"/></td>
+                </tr>
+                <tr>
+                    <th> Condições: </th>
+                    <td>
+                        <input type="text" name="condicoes"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th> Placa: </th>
+                    <td>
+                        <input type="text" name="placa"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th> Modelo: </th>
+                    <td>
+                        <input type="text" name="modelo"/>
+                    </td>
+                </tr>
+                <tr>                
+                    <td> 
+                        <input type="submit" name="botaoEnviar" value="Enviar Proposta"/>
+                    </td>
+                </tr>
+            </table>
         </form>
     </body>
 </html>
