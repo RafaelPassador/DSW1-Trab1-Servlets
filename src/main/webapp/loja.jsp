@@ -169,7 +169,7 @@
                             <td><input type="text" name="Valor" /></td>
                         </tr>
                         <tr>
-                            <th>Link da Imagem: </th>
+                            <th>Link da Imagem (Limite: 10): </th>
                             <td><input type="text" name="Imagem" /></td>
                         </tr>
                         <tr>
