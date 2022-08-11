@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/veiculos")
+@WebServlet(urlPatterns = "/index.html")
 public class VeiculosController extends HttpServlet {
     private static DataBaseFunctions db = new DataBaseFunctions();
 

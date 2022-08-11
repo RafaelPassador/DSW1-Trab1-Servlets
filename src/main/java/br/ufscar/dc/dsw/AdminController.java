@@ -46,7 +46,7 @@ public class AdminController extends HttpServlet {
         Erro erros = new Erro();
         db.checkCreation();
         if (req.getParameter("rewind") != null) {
-            RequestDispatcher rd = req.getRequestDispatcher("/Login");
+            RequestDispatcher rd = req.getRequestDispatcher("/");
             rd.forward(req, resp);
             return;
         }

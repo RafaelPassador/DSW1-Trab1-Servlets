@@ -49,7 +49,7 @@ public class LojaController extends HttpServlet {
         Loja myStore = (Loja) req.getSession().getAttribute("storeLog");
         System.out.println(myStore.getNome() + " chilling with " + myStore.getPropostas().size() + " offers");
         if(req.getParameter("rewind") != null){
-            RequestDispatcher rd = req.getRequestDispatcher("/Login");
+            RequestDispatcher rd = req.getRequestDispatcher("/");
             rd.forward(req, resp); 
             return;
         }

@@ -10,9 +10,8 @@
     text-align: center;
     background-color: white;
     box-shadow: 0 0  10px black;
-    margin-top: 20%;
+    margin-top: 1em;
   
-    border-collapse: collapse;/* da pra usar pra ficar juntinho*/
     min-width: 200px;
     /* border-spacing: 10px; */
     border: 1px solid black;
