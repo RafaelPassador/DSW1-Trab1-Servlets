@@ -35,7 +35,8 @@ public class LoginController extends HttpServlet {
         // checa a criação do banco de dados caso nao exista, cria um novo
         db.checkCreation();
         if (req.getParameter("bOK") != null) {//bOk = button ok, somente quando o formulario for enviado entra aqui
-			String login = req.getParameter("login");
+			System.out.println(req.getParameter("bOK"));
+            String login = req.getParameter("login");
 			String password = req.getParameter("senha");
             String type = req.getParameter("user");
 			if (login == null || login.isEmpty()) {// caso falte login

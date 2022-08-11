@@ -39,6 +39,7 @@ public class ClienteController extends HttpServlet
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         HttpSession session = req.getSession();
+        Erro erros = new Erro();
         db.checkCreation();
         if(req.getParameter("rewind") != null){
             RequestDispatcher rd = req.getRequestDispatcher("/Login");

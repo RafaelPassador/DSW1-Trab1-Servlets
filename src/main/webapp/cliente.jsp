@@ -9,9 +9,9 @@
         <link href="${pageContext.request.contextPath}/layout.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <h1> Bem vindo Cliente! </h1>
+        <h1> Bem vindo ${clientLog.getNome()}! </h1>
         <h2> Propostas já cadastradas: </h2>
-        <table>
+        <table class="table">
             <thead>
                 <th>Modelo</th>
                 <th>Placa</th>
@@ -35,7 +35,7 @@
         </table>
         <p> </p>
         <form action="cliente">
-                <table>
+                <table class="table">
                     <tr>
                         <th> Envie uma nova proposta: </th>
                     </tr>

@@ -10,7 +10,7 @@
     </head>
     <body>
         <h1>Listagem dos Carros:</h1>
-        <table>
+        <table class="table">
             <tr>
                 <th>Ano</th>
                 <th>Quilometragem</th>

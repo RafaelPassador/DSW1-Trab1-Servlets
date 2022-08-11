@@ -22,7 +22,7 @@
             </div>
         </c:if>
         <form method="post" action="Login">
-            <table>
+            <table class="table">
                 <tr>
                     <th>Tipo de Usuário</th>
                     <td>

@@ -27,7 +27,7 @@
                 <input type="submit" name="editClient" value="Editar Cliente"/> <br>
                 <input type="submit" name="rewind" value="Sair"/> <br>
         </form>
-        <table>
+        <table class="table">
             <form action="admin">
                 <c:if test="${rudLoja}">
                     <tr>
@@ -64,7 +64,7 @@
         <c:if test="${editingStore}">
             <form action="admin">
 
-                <table>
+                <table class="table">
                     <tr>
                         <th>Email: </th>
                         <td><input type="text" name="email" value="${editableStore.getEmail()}"/></td>
@@ -103,7 +103,7 @@
         <c:if test="${editingClient}">
             <form action="admin">
 
-                <table>
+                <table class="table">
                     <tr>
                         <th>Email: </th>
                         <td><input type="text" name="email" value="${editableClient.getEmail()}"/></td>
@@ -150,7 +150,7 @@
         <c:if test="${showStoreForm}">
             <form action="admin">
 
-                <table>
+                <table class="table">
                     <tr>
                         <th>Email: </th>
                         <td><input type="text" name="email" /></td>
@@ -186,7 +186,7 @@
         <c:if test="${showClientForm}">
             <form action="admin">
 
-                <table>
+                <table class="table">
                     <tr>
                         <th>Email: </th>
                         <td><input type="text" name="email" /></td>

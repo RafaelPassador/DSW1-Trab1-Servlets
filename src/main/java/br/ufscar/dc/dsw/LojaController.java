@@ -166,6 +166,9 @@ public class LojaController extends HttpServlet {
 			if (placa == null || placa.isEmpty()) {
 				erros.add("Placa não informada!");
 			}
+            else if(placa.length() != 7){
+                erros.add("Tamanho da placa inválido");
+            }
             if (modelo == null || modelo.isEmpty()) {
 				erros.add("Modelo não informado!");
 			}
@@ -189,13 +192,17 @@ public class LojaController extends HttpServlet {
 
             if (!(erros.isExisteErros())){
 
-                Loja newLoja1 = (Loja)req.getSession().getAttribute("storeLog");
-                Carros newCar1 = new Carros(newLoja1.getId(), Long.parseLong(ano), Long.parseLong(quilometragem), placa, modelo, chassi, descricao, Float.parseFloat(valor), listaimagens, cnpj);
+                // Loja newLoja1 = (Loja)req.getSession().getAttribute("storeLog");
+                Carros newCar1 = new Carros(myStore.getId(), Long.parseLong(ano), Long.parseLong(quilometragem), placa, modelo, chassi, descricao, Float.parseFloat(valor), listaimagens, cnpj);
                 //adicionar imagem aqui
-                db.insertCars(newCar1);
+                if(db.insertCars(newCar1)){
+                    for (String link:listaimagens)
+                        db.insertImage(link, placa);
+                }
+                else{
+                    erros.add("Placa já cadastrada");
+                }
 
-                for (String link:listaimagens)
-                    db.insertImage(link, placa);
                 
                 insertCars = false;
 

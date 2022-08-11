@@ -30,7 +30,7 @@
         <c:if test = "${showCars == true}">
             <div id = "Cars">
                 <form action="loja">
-                    <table>
+                    <table class="table">
                         <thead>
                             <th>Ano</th>
                             <th>Km rodados</th>
@@ -38,6 +38,7 @@
                             <th>Chassi</th>
                             <th>Descricao</th>
                             <th>Valor</th>
+                            <th>Modelo</th>
                         </thead>
                             <c:forEach var="car" items="${storeLog.getCarrosLoja()}">
                                 <tr>
@@ -47,9 +48,10 @@
                                     <td>${car.getChassi()}</td>
                                     <td>${car.getDescricao()}</td>
                                     <td>R$ ${car.getValor()}</td>
+                                    <td>${car.getModelo()}</td>
                                     <c:forEach var="image" items="${car.getImagens()}">
                                         <td>
-                                            <img src="${image}" alt="">
+                                            <img src="${image}" alt="" style="width: 15%;">
                                         </td>
                                     </c:forEach>
                                 </tr>
@@ -64,7 +66,7 @@
         <c:if test="${showOffers == true}">
             <div id="Offers">
                 <form action="loja">
-                    <table>
+                    <table class="table">
                         <thead>
                             <th>Id</th>
                             <th>Valor</th>
@@ -102,9 +104,9 @@
                             </c:if>
                         </c:forEach>
                     </table>
-                    <table>
+                    <table class="table">
                         <tr>
-                            <th>Placa do carro*: </th>
+                            <th>Id da proposta*: </th>
                             <td><input type="text" name="offerId"/></td>
                         </tr>
                         <tr>
@@ -134,7 +136,7 @@
             <div id="NewCar">
                 <form action="loja">
                 <h1> Insira os dados do carro para o cadastro! </h1>
-                    <table>
+                    <table class="table">
                         <tr>
                             <th>CNPJ: </th>
                             <td><input type="text" name="CNPJ"

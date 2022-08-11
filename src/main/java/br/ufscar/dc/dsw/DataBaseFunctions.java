@@ -28,8 +28,9 @@ public class DataBaseFunctions {
     public Connection getConnection(){
         Connection con = null;
         try{
-            String url = "jdbc:mysql://db:3306"; //+ database;
-            con = (Connection) DriverManager.getConnection(System.getenv("DATABASE_URI"), "root", "password");
+            String url = "jdbc:mysql://db:3306"+ database;
+            // con = (Connection) DriverManager.getConnection(System.getenv("DATABASE_URI"), "root", "password");
+            con = (Connection) DriverManager.getConnection(url, "root", "password");
         }
         catch(SQLException e){
             //tratar erros preguicinha aqui é de Query
@@ -78,9 +79,9 @@ public class DataBaseFunctions {
             stmt.executeUpdate(query);
             query = "use SistemaVeiculos;";
             stmt.executeUpdate(query);
-            query = "create table Cliente(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(1200) not null, cpf char(11) not null, nome varchar(256) not null, telefone varchar(14) not null, sexo varchar(1) not null, nascimento date not null, primary key(id));";
+            query = "create table Cliente(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(1200) not null, cpf char(11) not null unique, nome varchar(256) not null, telefone varchar(14) not null, sexo varchar(1) not null, nascimento date not null, primary key(id));";
             stmt.executeUpdate(query);
-            query = "create table Loja(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(1200) not null, cnpj char(14) not null, nome varchar(256) not null, descricao varchar(1024) not null, primary key(id));";
+            query = "create table Loja(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(1200) not null, cnpj char(14) not null unique, nome varchar(256) not null, descricao varchar(1024) not null, primary key(id));";
             stmt.executeUpdate(query);
             query = "create table Carros(placa char(7) not null, modelo varchar(128) not null, chassi varchar(64) not null, ano bigint not null, quilometragem bigint not null, descricao varchar(1024) not null, valor float not null, loja_id bigint not null, primary key(placa), foreign key(loja_id) references Loja(id));";
             stmt.executeUpdate(query);
@@ -453,7 +454,7 @@ public class DataBaseFunctions {
         }
     }
 
-    public void insertCars(Carros carro1){
+    public boolean insertCars(Carros carro1){
         try{
 
             String sql = "INSERT into Carros (placa, modelo, chassi, ano, quilometragem, descricao, valor, loja_id) values (?, ?, ?, ?, ?, ?, ?, ?)" ;
@@ -476,8 +477,9 @@ public class DataBaseFunctions {
         }
         catch(SQLException e){
             //tratar erros preguicinha aqui é de Query
-           System.out.println(e.getMessage());
+            return false;
         }
+        return true;
     }
 
     public void insertImage(String link, String placa){

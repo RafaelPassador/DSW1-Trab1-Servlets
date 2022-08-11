@@ -116,6 +116,9 @@ public class AdminController extends HttpServlet {
             if(cpf == null || cpf.isEmpty()){
                 erros.add("cpf vazio, por favor insira algo");
             }
+            else if(cpf.length() != 11){
+                erros.add("Cpf não possui 11 digitos");
+            }
             if(nome == null || nome.isEmpty()){
                 erros.add("nome vazio, por favor insira algo");
             }
@@ -152,6 +155,9 @@ public class AdminController extends HttpServlet {
             }
             if(cnpj == null || cnpj.isEmpty()){
                 erros.add("cnpj vazio, por favor insira algo");
+            }
+            else if(cnpj.length() != 14){
+                erros.add("Cnpj não possui 14 digitos");
             }
             if(nome == null || nome.isEmpty()){
                 erros.add("nome vazio, por favor insira algo");
