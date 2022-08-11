@@ -95,6 +95,44 @@ public class DataBaseFunctions {
         }
     }
 
+    public Cliente getClientByCpf(String cpf){
+        Cliente myClient = null;
+
+        //Pode dar erro (encriptacao)
+        String sql = "select * from Cliente where cpf = ?";
+
+        try{
+            Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, cpf);
+        
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()){ // se tiver algo resultado da consulta
+                Long id = resultSet.getLong("id");
+                String email = resultSet.getString("email");
+                String pass = resultSet.getString("pass");
+                String nome = resultSet.getString("nome");
+                String telefone = resultSet.getString("telefone");
+                String sexo = resultSet.getString("sexo");
+                Date nascimento = resultSet.getDate("nascimento");
+
+                ArrayList<Proposta> propostas = getOffers(id, id, true);
+                myClient = new Cliente(id, email, pass, cpf, nome, telefone, sexo, nascimento, propostas);
+            }
+
+            resultSet.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+            //tratar erros preguicinha aqui é de Query
+        }
+        return myClient;
+    }
+
+
+
     public Cliente getClientByLogin(String login, String password){
         Cliente myClient = null;
 
@@ -131,6 +169,42 @@ public class DataBaseFunctions {
             //tratar erros preguicinha aqui é de Query
         }
         return myClient;
+    }
+
+    public Loja getStoreByCnpj(String cnpj){
+        Loja myStore = null;
+
+        //Pode dar erro (encriptacao)
+        String sql = "select * from Loja where cnpj = ?";
+
+        try{
+            Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, cnpj);
+
+            ResultSet resultSet = statement.executeQuery();
+
+
+            if (resultSet.next()){ // se tiver algo resultado da consulta
+                Long id = resultSet.getLong("id");
+                String email = resultSet.getString("email");
+                String pass = resultSet.getString("pass");
+                String nome = resultSet.getString("nome");
+                String descricao = resultSet.getString("descricao");
+
+                ArrayList<Carros> carros = getStoreCars(id);
+                ArrayList<Proposta> propostas = getOffers(id, id, false);
+                myStore = new Loja(id, email, pass, cnpj, nome, descricao, carros, propostas);
+            }
+
+            resultSet.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+           //tratar erros preguicinha aqui é de Query
+           System.out.println(e.getMessage() + " Oh my goodness");
+        }
+        return myStore;
     }
 
     public Loja getStoreByLogin(String login, String password){
@@ -466,24 +540,147 @@ public class DataBaseFunctions {
         store.setCarrosLoja(getStoreCars(store.getId()));
     }
 
+    public String createStore(Loja store){
+        String sql = "insert into Loja(email, pass, cnpj, nome, descricao) values (?, md5(?), ?, ?, ?)";
 
-	// public static void main(String[] args) {
-	// 	try {
+        try{
+            Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, store.getEmail());
+            statement.setString(2, store.getSenha());
+            statement.setString(3, store.getCnpj());
+            statement.setString(4, store.getNome());
+            statement.setString(5, store.getDescricao());
 
-	// 		ResultSet rs = stmt.executeQuery("select * from Livro");
-	// 		while (rs.next()) {
-	// 			System.out.print(rs.getString("Titulo"));
-	// 			System.out.print(", " + rs.getString("Autor"));
-	// 			System.out.print(", " + rs.getInt("Ano"));
-	// 			System.out.println(" (R$ " + rs.getFloat("Preco") + ")");
-	// 		}
-	// 		stmt.close();
-	// 		con.close();
-	// 	} catch (ClassNotFoundException e) {
-	// 		System.out.println("A classe do driver de conexão não foi encontrada!");
-	// 	} catch (SQLException e) {
-	// 		System.out.println(e);
-	// 		System.out.println("O comando SQL não pode ser executado!");
-	// 	}
-	// }
+            statement.executeUpdate();
+
+
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+           //tratar erros preguicinha aqui é de Query
+            return e.getMessage();
+        }
+        return "";
+
+    }
+
+    public String createClient(Cliente client){
+        String sql = "insert into Cliente(email, pass, cpf, nome, telefone, sexo, nascimento) values (?, md5(?), ?, ?, ?, ?, ?)";
+
+        try{
+            Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, client.getEmail());
+            statement.setString(2, client.getPass());
+            statement.setString(3, client.getCpf());
+            statement.setString(4, client.getNome());
+            statement.setString(5, client.getTelefone());
+            statement.setString(6, client.getSexo());
+            statement.setDate(7, client.getNascimento());
+
+            statement.executeUpdate();
+
+
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+           //tratar erros preguicinha aqui é de Query
+            return e.getMessage();
+        }
+        return "";
+    }
+
+    public String updateClient(Cliente client, boolean newPassword){
+        String sql = newPassword?
+        "update Cliente set email = ?, pass = md5(?), cpf = ?, nome = ?, telefone = ?, sexo = ?, nascimento = ? where id = ?":
+        "update Cliente set email = ?, pass = ?, cpf = ?, nome = ?, telefone = ?, sexo = ?, nascimento = ? where id = ?";
+
+        try{
+            Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, client.getEmail());
+            statement.setString(2, client.getPass());
+            statement.setString(3, client.getCpf());
+            statement.setString(4, client.getNome());
+            statement.setString(5, client.getTelefone());
+            statement.setString(6, client.getSexo());
+            statement.setDate(7, client.getNascimento());
+            statement.setLong(8, client.getId());
+
+            statement.executeUpdate();
+
+
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+           //tratar erros preguicinha aqui é de Query
+            return e.getMessage();
+        }
+        return "";
+    }
+
+    public String updateStore(Loja store, boolean newPassword){
+        String sql = newPassword ? 
+        "update Loja set email = ?, pass = md5(?), cnpj = ?, nome = ?, descricao = ? where id = ?" : 
+        "update Loja set email = ?, pass = ?, cnpj = ?, nome = ?, descricao = ? where id = ?";
+        System.out.println("sql = " + sql);
+
+        try{
+            Connection conn = getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, store.getEmail());
+            statement.setString(2, store.getSenha());
+            statement.setString(3, store.getCnpj());
+            statement.setString(4, store.getNome());
+            statement.setString(5, store.getDescricao());
+            statement.setLong(6, store.getId());
+
+            statement.executeUpdate();
+
+
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+           //tratar erros preguicinha aqui é de Query
+            return e.getMessage();
+        }
+        return "";
+    }
+
+    public String deleteStore(Loja store){
+        String sql = "delete from Loja where id = ?";
+        try{
+            Connection conn = this.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            statement.setLong(1, store.getId());
+            statement.executeUpdate();
+
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+            // tratar erros preguicinha aqui é de Query
+            return e.getMessage();
+        }
+        return "";
+    }
+    public String deleteClient(Cliente client){
+        String sql = "delete from Cliente where id = ?";
+        try{
+            Connection conn = this.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            statement.setLong(1, client.getId());
+            statement.executeUpdate();
+
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+            // tratar erros preguicinha aqui é de Query
+            return e.getMessage();
+        }
+        return "";
+    }
+
 }

@@ -20,6 +20,15 @@ public class Cliente {
         this.telefone = telefone;
         this.propostas = propostas;
     }
+    public Cliente(String email, String pass, String cpf, String nome, String telefone, String sexo, Date nascimento) {
+        this.cpf = cpf;
+        this.email = email;
+        this.nascimento = nascimento;
+        this.nome = nome;
+        this.pass = pass;
+        this.sexo = sexo;
+        this.telefone = telefone;
+    }
 
     
     public ArrayList<Proposta> getPropostas() {

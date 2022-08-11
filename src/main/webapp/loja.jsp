@@ -24,6 +24,7 @@
                 <input type="submit" name="regCar" value="Cadastrar Veiculo"/> <br>
                 <input type="submit" name="listCars" value="Listar Veiculos"/> <br>
                 <input type="submit" name="listOffers" value="Listar Propostas"/> <br>
+                <input type="submit" name="rewind" value="Sair"/> <br>
 
         </form>
         <c:if test = "${showCars == true}">

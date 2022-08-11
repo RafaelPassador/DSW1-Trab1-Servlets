@@ -40,6 +40,11 @@ public class ClienteController extends HttpServlet
     {
         HttpSession session = req.getSession();
         db.checkCreation();
+        if(req.getParameter("rewind") != null){
+            RequestDispatcher rd = req.getRequestDispatcher("/Login");
+            rd.forward(req, resp); 
+            return;
+        }
 
         if (req.getParameter("botaoEnviar") != null)
         {

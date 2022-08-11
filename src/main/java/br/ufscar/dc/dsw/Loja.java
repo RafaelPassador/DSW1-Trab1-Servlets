@@ -18,6 +18,13 @@ public class Loja {
         this.carrosLoja = carrosLoja;
         this.propostas = propostas;
     }
+    public Loja(String email, String senha, String cnpj, String nome, String descricao){
+        this.cnpj = cnpj;
+        this.descricao = descricao;
+        this.senha = senha;
+        this.email = email;
+        this.nome = nome;
+    }
     public void teste(Proposta a){
         propostas.add(a);
     }
