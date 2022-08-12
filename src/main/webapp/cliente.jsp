@@ -79,7 +79,6 @@
                         </td>
                     </tr>
                 </table>
-                <input type="submit" name="botaoVisualizar" value="Visualizar as propostas"/> <br>
                 <input type="submit" name="rewind" value="Sair"/> <br>
         </form>
     </body>
