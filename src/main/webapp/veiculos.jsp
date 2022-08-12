@@ -35,7 +35,7 @@
                         <td>R$ ${car.getValor()}</td>
                         <td><input type="submit" name="proposta" value="${car.getPlaca()}"></td>
                         <c:forEach var="image" items="${car.getImagens()}">
-                            <td><img src="${image}" alt=""></td>
+                            <td><img src="${image}" alt="" style="width: 25%;"></td>
                         </c:forEach>
                     </tr>
                 </c:forEach>

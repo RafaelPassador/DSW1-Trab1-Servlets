@@ -21,13 +21,16 @@ public class LoginController extends HttpServlet {
     private static Statement stmt = null;
     private static Connection con = null;
     private static DataBaseFunctions db = new DataBaseFunctions();
+    private static String propostaPlaca = null;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().setAttribute("proposta", req.getParameter("proposta"));
-        doGet(req, resp);
+        if(propostaPlaca == null)
+            propostaPlaca = req.getParameter("proposta");
+        req.getSession().setAttribute("proposta", propostaPlaca);
+        doGet(req, resp);  
     }
-
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
@@ -83,6 +86,7 @@ public class LoginController extends HttpServlet {
                     //mandamos o tipo do usuario para fim de redirecionamento!
                     req.getSession().setAttribute("typeLog", type); 
                     // resp.sendRedirect("menu/");
+                    propostaPlaca = null;
                     RequestDispatcher rd = req.getRequestDispatcher("/menu");
                     rd.forward(req, resp); 
                     return;
@@ -91,6 +95,7 @@ public class LoginController extends HttpServlet {
 			}
 		}
 		req.getSession().invalidate();
+        req.setAttribute("proposta", propostaPlaca);
         req.setAttribute("mensagens", erros);
        
        String url = "/login.jsp";

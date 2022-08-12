@@ -40,11 +40,11 @@
                         <th> Envie uma nova proposta: </th>
                     </tr>
                     <tr>
-                        <th> Valor Ofertado: </th>
+                        <th> Valor de Oferta: </th>
                         <td><input type="text" name="valorOfertado"/></td>
                     </tr>
                     <tr>
-                        <th> Condições: </th>
+                        <th> Condições de Pagamento: </th>
                         <td>
                             <input type="text" name="condicoes"/>
                         </td>
@@ -52,13 +52,14 @@
                     <tr>
                         <th> Placa: </th>
                         <td>
-                            <input type="text" name="placa"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th> Modelo: </th>
-                        <td>
-                            <input type="text" name="modelo"/>
+                            <c:choose>
+                                <c:when test="${proposta != null}">
+                                    <input type="text" name="placa" value="${proposta}"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="text" name="placa" value="${proposta}"/>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                     <tr>                

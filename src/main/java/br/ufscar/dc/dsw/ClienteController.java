@@ -53,26 +53,43 @@ public class ClienteController extends HttpServlet
             
             System.out.println("cliente: " + cliente);
             
-            Carros carro = db.getCarByPlate(req.getParameter("placa"));
-            Proposta propostaCliente = new Proposta((Long) session.getAttribute("id"),
-            Float.parseFloat(req.getParameter("valorOfertado")),
-            req.getParameter("condicoes"),"Aberto", carro.getPlaca(),
-            carro.getModelo(), new Date(System.currentTimeMillis()));
-
-            boolean podeAbrirProposta = true;
-
-            for (Proposta proposta : cliente.getPropostas())
-            {
-                if (proposta.getEstado().toLowerCase().equals("aberto") && proposta.getPlaca().equals(propostaCliente.getPlaca()))
+            try{
+                Carros carro = db.getCarByPlate(req.getParameter("placa"));
+                if(carro == null){
+                    erros.add("Placa inválida!");
+                }
+                if(req.getAttribute("placa") == null){
+                    erros.add("Carro não informado! (placa)");
+                }
+                if(req.getAttribute("valorOfertado") == null){
+                    erros.add("Valor da oferta não informado!");
+                }
+                if(req.getAttribute("condicoes") == null){
+                    erros.add("Condição não informada!");
+                }
+                Proposta propostaCliente = new Proposta((Long) session.getAttribute("placa"),
+                Float.parseFloat(req.getParameter("valorOfertado")),
+                req.getParameter("condicoes"),"Aberto", carro.getPlaca(),
+                carro.getModelo(), new Date(System.currentTimeMillis()));
+                
+                boolean podeAbrirProposta = true;
+                
+                for (Proposta proposta : cliente.getPropostas())
                 {
-                    System.out.println("ALOOOOo");
-                    podeAbrirProposta = false;
+                    if (proposta.getEstado().toLowerCase().equals("aberto") && proposta.getPlaca().equals(propostaCliente.getPlaca()))
+                    {
+                        erros.add("Proposta para esse carro já está em aberto!");
+                        podeAbrirProposta = false;
+                    }
+                }
+                
+                if (podeAbrirProposta)
+                {
+                    db.insertProposta(propostaCliente, cliente);
                 }
             }
-
-            if (podeAbrirProposta)
-            {
-                db.insertProposta(propostaCliente, cliente);
+            catch(Exception e){
+                erros.add(e.getMessage());
             }
         }
 
