@@ -36,10 +36,10 @@
                     </tr>
                     <tr>
                         <th>
-                            <input type="submit" name="sendIdLoja" value="EDITAR"/>
+                            <input type="submit" name="closeRud" value="FECHAR"/>
                         </th>
                         <th>
-                            <input type="submit" name="closeRud" value="FECHAR"/>
+                            <input type="submit" name="sendIdLoja" value="EDITAR"/>
                         </th>
                     </tr>
                 </c:if>
@@ -50,10 +50,10 @@
                     </tr>
                     <tr>
                         <th>
-                            <input type="submit" name="sendIdClient" value="EDITAR"/>
+                            <input type="submit" name="closeRud" value="FECHAR"/>
                         </th>
                         <th>
-                            <input type="submit" name="closeRud" value="FECHAR"/>
+                            <input type="submit" name="sendIdClient" value="EDITAR"/>
                         </th>
                     </tr>
                 </c:if>
@@ -87,13 +87,13 @@
                     </tr>
                     <tr>
                         <th>
+                            <input type="submit" name="closeStore" value="FECHAR"/>
+                        </th>
+                        <th>
                             <input type="submit" name="confirmStoreEdit" value="EDITAR"/>
                         </th>
                         <th>
                             <input type="submit" name="deleteStore" value="DELETAR"/>
-                        </th>
-                        <th>
-                            <input type="submit" name="closeStore" value="FECHAR"/>
                         </th>
                     </tr>
                 </table>
@@ -134,13 +134,13 @@
                     </tr>
                     <tr>
                         <th>
+                            <input type="submit" name="closeClient" value="FECHAR"/>
+                        </th>
+                        <th>
                             <input type="submit" name="confirmClientEdit" value="EDITAR"/>
                         </th>
                         <th>
                             <input type="submit" name="deleteClient" value="DELETAR"/>
-                        </th>
-                        <th>
-                            <input type="submit" name="closeClient" value="FECHAR"/>
                         </th>
                     </tr>
                 </table>

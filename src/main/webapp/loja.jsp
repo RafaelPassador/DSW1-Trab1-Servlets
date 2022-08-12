@@ -176,12 +176,12 @@
                         </tr>
                         <tr>
                         <td colspan="2"> 
-                            <input type="submit" name="bCLOSE" value="Fechar"/>
+                            <input type="submit" name="bSAVE" value="Salvar"/>
                         </td>
                         </tr>
                             <tr>
-                                <td colspan="2"> 
-                                    <input type="submit" name="bSAVE" value="Salvar"/>
+                                <td colspan="2">
+                                    <input type="submit" name="bCLOSE" value="Fechar"/>
                                 </td>
                             </tr>
                     </table>

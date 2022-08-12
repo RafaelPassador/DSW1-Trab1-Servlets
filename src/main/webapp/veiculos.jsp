@@ -5,12 +5,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Veículos</title>
+        <title>Sistema de Compra e Venda de Veículos</title>
         <link href="${pageContext.request.contextPath}/layout.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <marquee>CLIQUE <a href="Login">AQUI</a> PARA FAZER LOGIN</marquee>
-        <h1>Listagem dos Carros:</h1>
+        <h1>Seja Bem Vindo!</h1>
+        <h2>Deseja fazer login?</h2>
+        <marquee><a href="Login">CLIQUE AQUI PARA FAZER LOGIN</a></marquee>
+        <h2>Carros Disponíveis:</h2>
         <input id="filtro" type="text" onkeyup="filter()" placeholder="filtrar">
         <form action="Login" method="post">
             <table id="veiculos" class="table">
@@ -35,7 +37,7 @@
                         <td>R$ ${car.getValor()}</td>
                         <td><input type="submit" name="proposta" value="${car.getPlaca()}"></td>
                         <c:forEach var="image" items="${car.getImagens()}">
-                            <td><img src="${image}" alt="" style="width: 25%;"></td>
+                            <td><img src="${image}" alt="" style="width: 15%;"></td>
                         </c:forEach>
                     </tr>
                 </c:forEach>
