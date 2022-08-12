@@ -83,11 +83,11 @@ public class DataBaseFunctions {
             stmt.executeUpdate(query);
             query = "create table Loja(id bigint not null auto_increment, email varchar(512) not null unique, pass varchar(1200) not null, cnpj char(14) not null unique, nome varchar(256) not null, descricao varchar(1024) not null, primary key(id));";
             stmt.executeUpdate(query);
-            query = "create table Carros(placa char(7) not null, modelo varchar(128) not null, chassi varchar(64) not null, ano bigint not null, quilometragem bigint not null, descricao varchar(1024) not null, valor float not null, loja_id bigint not null, primary key(placa), foreign key(loja_id) references Loja(id));";
+            query = "create table Carros(placa char(7) not null, modelo varchar(128) not null, chassi varchar(64) not null, ano bigint not null, quilometragem bigint not null, descricao varchar(1024) not null, valor float not null, loja_id bigint not null, primary key(placa), foreign key(loja_id) references Loja(id) on delete cascade);";
             stmt.executeUpdate(query);
-            query = "create table Imagens(id bigint not null auto_increment, carro_id char(7) not null, link text not null, primary key(id), foreign key(carro_id) references Carros(placa));";
+            query = "create table Imagens(id bigint not null auto_increment, carro_id char(7) not null, link text not null, primary key(id), foreign key(carro_id) references Carros(placa) on delete cascade);";
             stmt.executeUpdate(query);
-            query = "create table Proposta(id bigint not null auto_increment, loja_id bigint not null, cliente_id bigint not null, carro_id char(7) not null, valor float not null, condicoes varchar(1200) not null, estado varchar(11) not null, contraproposta varchar(1200), data_proposta date not null, primary key(id, cliente_id, carro_id), foreign key(cliente_id) references Cliente(id), foreign key(loja_id) references Loja(id), foreign key(carro_id) references Carros(placa));";
+            query = "create table Proposta(id bigint not null auto_increment, loja_id bigint not null, cliente_id bigint not null, carro_id char(7) not null, valor float not null, condicoes varchar(1200) not null, estado varchar(11) not null, contraproposta varchar(1200), data_proposta date not null, primary key(id, cliente_id, carro_id), foreign key(cliente_id) references Cliente(id) on delete cascade, foreign key(loja_id) references Loja(id) on delete cascade, foreign key(carro_id) references Carros(placa) on delete cascade);";
             stmt.executeUpdate(query);
         }
         catch(SQLException e){
@@ -504,7 +504,7 @@ public class DataBaseFunctions {
         }
     }
 
-    public void insertProposta(Proposta proposta, Cliente cliente){
+    public String insertProposta(Proposta proposta, Cliente cliente){
         try{
     
             String sql = "INSERT into Proposta (loja_id, cliente_id, carro_id, valor, condicoes, estado, data_proposta) values (?, ?, ?, ?, ?, ?, ?)";
@@ -526,8 +526,9 @@ public class DataBaseFunctions {
         }
         catch(SQLException e){
             //erro de query
-           System.out.println(e.getMessage());
+           return e.getMessage();
         }
+        return "";
     }
 
     public void refreshOffers(Loja store){
@@ -649,6 +650,7 @@ public class DataBaseFunctions {
         }
         return "";
     }
+    
 
     public String deleteStore(Loja store){
         String sql = "delete from Loja where id = ?";

@@ -34,6 +34,14 @@ public class AdminController extends HttpServlet {
     private static Cliente editableClient = null;
     private static Loja editableStore = null;
 
+    private static void closeAll(){
+        rudLoja = false;
+        rudClient = false;
+        editingStore = false;
+        editingClient = false;
+        showStoreForm = false;
+        showClientForm = false;
+    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // TODO Auto-generated method stub
@@ -46,14 +54,15 @@ public class AdminController extends HttpServlet {
         Erro erros = new Erro();
         db.checkCreation();
         if (req.getParameter("rewind") != null) {
+            closeAll();
             RequestDispatcher rd = req.getRequestDispatcher("/");
             rd.forward(req, resp);
             return;
         }
-        if (req.getParameter("regLoja") != null) {
+        if (req.getParameter("regLoja") != null && !showClientForm && !rudClient && !rudLoja && !editingClient && !editingStore) {
             showStoreForm = true;
         }
-        if (req.getParameter("regClient") != null) {
+        if (req.getParameter("regClient") != null && !showStoreForm && !rudClient && !rudLoja && !editingClient && !editingStore) {
             showClientForm = true;
         }
 
@@ -65,10 +74,10 @@ public class AdminController extends HttpServlet {
             editingClient = false;
             showClientForm = false;
         }
-        if (req.getParameter("editClient") != null) {
+        if (req.getParameter("editClient") != null && !showClientForm && !showStoreForm && !rudLoja && !editingClient && !editingStore) {
             rudClient = true;
         }
-        if (req.getParameter("editLoja") != null) {
+        if (req.getParameter("editLoja") != null && !showClientForm && !showStoreForm && !rudClient && !editingClient && !editingStore) {
             rudLoja = true;
         }
         if (req.getParameter("closeRud") != null) {
@@ -253,11 +262,15 @@ public class AdminController extends HttpServlet {
             }
         }
         if(req.getParameter("deleteStore") != null){
-            db.deleteStore(editableStore);
+            String del = db.deleteStore(editableStore);
+            if(!del.equals(""))
+                erros.add(del);
             editingStore = false;
         }
         if(req.getParameter("deleteClient") != null){
-            db.deleteClient(editableClient);
+            String del = db.deleteClient(editableClient);
+            if(!del.equals(""))
+                erros.add(del);
             editingClient = false;
         }
 

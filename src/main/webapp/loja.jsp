@@ -75,6 +75,8 @@
                             <th>Modelo do carro</th>
                             <th>Condicoes</th>
                             <th>Data</th>
+                            <th>Estado</th>
+                            <th>Contraproposta?</th>
                         </thead>
                         <c:forEach var="offer" items="${storeLog.getPropostas()}">
                             <c:set var="op" value ="ABERTO"></c:set>
@@ -100,6 +102,7 @@
                                     <td>${offer.getCondicoes()}</td>
                                     <td>${offer.getData_proposta()}</td>
                                     <td>${offer.getEstado()}</td>
+                                    <td>${offer.getContraproposta()}</td>
                                 </tr>
                             </c:if>
                         </c:forEach>
@@ -115,7 +118,7 @@
                         </tr>
                         <tr>
                             <th>Condições: </th>
-                            <td><input type="password" name="counterOfferCondition" /></td>
+                            <td><input type="text" name="counterOfferCondition" /></td>
                         </tr>
                         <tr>
                             <th>

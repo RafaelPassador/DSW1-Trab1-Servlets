@@ -10,6 +10,15 @@
     </head>
     <body>
         <h1> Bem vindo ${clientLog.getNome()}! </h1>
+        <c:if test="${mensagens.existeErros}">
+            <div id="erro">
+                <ul>
+                    <c:forEach var="erro" items="${mensagens.erros}">
+                        <li> ${erro} </li>
+                        </c:forEach>
+                </ul>
+            </div>
+        </c:if>
         <h2> Propostas já cadastradas: </h2>
         <table class="table">
             <thead>
@@ -20,6 +29,7 @@
                 <th>Valor Original</th>
                 <th>Valor proposto</th>
                 <th>Data da Proposta</th>
+                <th>Contraproposta?</th>
             </thead>
             <c:forEach items="${clientLog.getPropostas()}" var="proposta">
                 <tr>
@@ -30,6 +40,7 @@
                     <td>R$ ${proposta.getValor_original()}</td>
                     <td>R$ ${proposta.getValor()}</td>
                     <td>${proposta.getData_proposta()}</td>
+                    <td>${proposta.getContraproposta()}</td>
                 </tr>
             </c:forEach>
         </table>

@@ -58,16 +58,16 @@ public class ClienteController extends HttpServlet
                 if(carro == null){
                     erros.add("Placa inválida!");
                 }
-                if(req.getAttribute("placa") == null){
+                if(req.getParameter("placa") == null){
                     erros.add("Carro não informado! (placa)");
                 }
-                if(req.getAttribute("valorOfertado") == null){
+                if(req.getParameter("valorOfertado") == null){
                     erros.add("Valor da oferta não informado!");
                 }
-                if(req.getAttribute("condicoes") == null){
+                if(req.getParameter("condicoes") == null){
                     erros.add("Condição não informada!");
                 }
-                Proposta propostaCliente = new Proposta((Long) session.getAttribute("placa"),
+                Proposta propostaCliente = new Proposta(
                 Float.parseFloat(req.getParameter("valorOfertado")),
                 req.getParameter("condicoes"),"Aberto", carro.getPlaca(),
                 carro.getModelo(), new Date(System.currentTimeMillis()));
@@ -85,13 +85,20 @@ public class ClienteController extends HttpServlet
                 
                 if (podeAbrirProposta)
                 {
-                    db.insertProposta(propostaCliente, cliente);
+                    String ins = db.insertProposta(propostaCliente, cliente);
+                    if(!ins.equals("")){
+                        erros.add(ins);
+                    }
+                    db.refreshOffers(cliente);
+                    req.setAttribute("clientLog", cliente);
                 }
             }
             catch(Exception e){
                 erros.add(e.getMessage());
             }
         }
+
+        req.setAttribute("mensagens", erros);
 
         String url = "/cliente.jsp";
         RequestDispatcher rd = req.getRequestDispatcher(url);

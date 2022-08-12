@@ -28,6 +28,11 @@ public class LojaController extends HttpServlet {
     private static boolean showCars = false;
     private static boolean insertCars = false;
 
+    private static void closeAll(){
+        showOffers = false;
+        showCars = false;
+        insertCars = false;
+     }
 
 
     @Override
@@ -49,6 +54,7 @@ public class LojaController extends HttpServlet {
         Loja myStore = (Loja) req.getSession().getAttribute("storeLog");
         System.out.println(myStore.getNome() + " chilling with " + myStore.getPropostas().size() + " offers");
         if(req.getParameter("rewind") != null){
+            closeAll();
             RequestDispatcher rd = req.getRequestDispatcher("/");
             rd.forward(req, resp); 
             return;
@@ -118,9 +124,9 @@ public class LojaController extends HttpServlet {
                     erros.add("Oferta " + id + " nao existente");
             }
             if(!erros.isExisteErros()){
-                if(valor == null)
+                if(valor == null || valor.isEmpty())
                     valor = "...";
-                if(condition == null)
+                if(condition == null || condition.isEmpty())
                     condition = "...";
                 String counterOffer = replyType.toLowerCase().equals("ACEITO") ? "" : "R$ " + valor + " " + condition;
                 db.replyOffer(replying, counterOffer, replyType);
